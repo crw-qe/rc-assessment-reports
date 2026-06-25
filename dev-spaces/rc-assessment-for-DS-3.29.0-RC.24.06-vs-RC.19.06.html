@@ -72,6 +72,7 @@
   .tests-table th { background: #f9fafb; font-weight: 600; font-size: 13px; text-transform: uppercase; letter-spacing: 0.3px; }
   .tests-table td a { color: #2563eb; text-decoration: none; }
   .tests-table td a:hover { text-decoration: underline; }
+  .digest-message { padding: 6px 12px 6px 30px; color: #666; font-size: 15px; font-style: italic; }
 </style>
 </head>
 <body>
@@ -82,13 +83,13 @@
 <div class="summary"><h2>Changed Components</h2>
 <ul>
 <li><strong>code-sshd-rhel9</strong>: OpenSSH 9.9 server-side support (<a href="https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/merge_requests/3707" target="_blank">!3707</a>)</li>
-<li><strong>dashboard-rhel9</strong>: OAuth token injection fix (<a href="https://redhat.atlassian.net/browse/CRW-11193" target="_blank">CRW-11193</a>), security dependency upgrades (<a href="https://redhat.atlassian.net/browse/CRW-11204" target="_blank">CRW-11204</a>, <a href="https://redhat.atlassian.net/browse/CRW-11180" target="_blank">CRW-11180</a>, <a href="https://redhat.atlassian.net/browse/CRW-11283" target="_blank">CRW-11283</a>, <a href="https://redhat.atlassian.net/browse/CRW-11335" target="_blank">CRW-11335</a>), Kiro editor URI definition (<a href="https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/merge_requests/3721" target="_blank">!3721</a>), upstream fixes (<a href="https://github.com/eclipse-che/che-dashboard/pull/1619" target="_blank">#1619</a>, <a href="https://github.com/eclipse-che/che-dashboard/pull/1618" target="_blank">#1618</a>, <a href="https://github.com/eclipse-che/che-dashboard/pull/1616" target="_blank">#1616</a>)</li>
-<li><strong>pluginregistry-rhel9 (OpenVSX)</strong>: undici security update (<a href="https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/merge_requests/3627" target="_blank">!3627</a>, <a href="https://redhat.atlassian.net/browse/CRW-11332" target="_blank">CRW-11332</a>) + OpenSSL 3.5.5-4 update (<a href="https://redhat.atlassian.net/browse/CRW-11196" target="_blank">CRW-11196</a>)</li>
+<li><strong>dashboard-rhel9</strong>: SCC permission fix on first login (<a href="https://github.com/eclipse-che/che-dashboard/pull/1619" target="_blank">#1619</a>), prevent duplicate PATCH and devfile command removal (<a href="https://github.com/eclipse-che/che-dashboard/pull/1618" target="_blank">#1618</a>, <a href="https://github.com/eclipse-che/che/issues/23892" target="_blank">che#23892</a>), OAuth token injection fix (<a href="https://github.com/eclipse-che/che-dashboard/pull/1615" target="_blank">#1615</a>, <a href="https://redhat.atlassian.net/browse/CRW-11193" target="_blank">CRW-11193</a>), security dependency upgrades (<a href="https://github.com/eclipse-che/che-dashboard/pull/1613" target="_blank">#1613</a>: <a href="https://redhat.atlassian.net/browse/CRW-11204" target="_blank">CRW-11204</a>, <a href="https://redhat.atlassian.net/browse/CRW-11180" target="_blank">CRW-11180</a>, <a href="https://redhat.atlassian.net/browse/CRW-11283" target="_blank">CRW-11283</a>, <a href="https://redhat.atlassian.net/browse/CRW-11335" target="_blank">CRW-11335</a>), AI assistants doc link (<a href="https://github.com/eclipse-che/che-dashboard/pull/1616" target="_blank">#1616</a>, <a href="https://github.com/eclipse-che/che/issues/23891" target="_blank">che#23891</a>), Kiro editor URI (<a href="https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/merge_requests/3721" target="_blank">!3721</a>)</li>
+<li><strong>pluginregistry-rhel9 (OpenVSX)</strong>: OpenSSL 3.5.5-4 update (<a href="https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/merge_requests/3664" target="_blank">!3664</a>, <a href="https://redhat.atlassian.net/browse/CRW-11196" target="_blank">CRW-11196</a>)</li>
+<li><strong>configbump-rhel9, jetbrains-ide-rhel9, devspaces-rhel9-operator, server-rhel9, traefik-rhel9</strong>: base image rebuilds only</li>
 </ul>
 <h2>Unchanged Components</h2>
 <ul>
-<li><strong>code-rhel9, udi-rhel9, imagepuller-rhel9</strong>: digest unchanged since RC.19.06</li>
-<li><strong>configbump-rhel9, jetbrains-ide-rhel9, devspaces-rhel9-operator, server-rhel9, traefik-rhel9</strong>: digest changed (base image rebuilds only, no functional changes)</li>
+<li><strong>code-rhel9, udi-rhel9, oauth2-proxy-rhel9</strong>: digest unchanged since RC.19.06</li>
 </ul>
 <h2>Caveats</h2>
 <ul>
@@ -117,14 +118,14 @@ var DATA = {
         {
           "dsCommit": "fa0aa107",
           "dsTitle": "Include change required for OpenSSH 9.9 server-side support",
-          "dsUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/commit/fa0aa1076a8f",
+          "dsUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/commit/fa0aa1076a8fda466613afbc8c0f51fc2095baf3",
           "mr": "!3707",
           "mrUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/merge_requests/3707",
-          "mrHint": "Commit fa0aa107 was introduced by MR !3707. Found via GitLab commits/<sha>/merge_requests API.",
+          "mrHint": "Commit fa0aa107 was introduced by MR !3707 (OpenSSH 9.9 support for code-sshd). Found via commits/<sha>/merge_requests API.",
           "jiras": null,
           "usCommit": null,
-          "usTitle": null,
           "usUrl": null,
+          "usTitle": null,
           "pr": null,
           "prUrl": null,
           "prHint": null,
@@ -134,7 +135,7 @@ var DATA = {
       "tests": [
         {
           "id": "V01",
-          "title": "VS Code Desktop SSH FIPS",
+          "title": "VS Code Desktop SSH Editor",
           "priority": 0,
           "testUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/test-cases/-/blob/master/tests/functional/editors/vscode-desktop-ssh/v01-visual-studio-code-desktop-ssh-editor-smoke-tests-with-fips.md",
           "pipeline": "functional-tests > VsCodeDesktopSshEditor",
@@ -144,60 +145,26 @@ var DATA = {
             "functional-tests": "https://jenkins-csb-crwqe-main.dno.corp.redhat.com/job/Testing/job/e2e/job/complex/job/latest/job/functional-tests/"
           },
           "assignee": "dnochevn",
-          "polarionResults": [
-            {
-              "arch": "x86_64",
-              "verdict": "Not Run",
-              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-57-43-122"
-            },
-            {
-              "arch": "ppc64le",
-              "verdict": "Not Run",
-              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-58-14-840"
-            },
-            {
-              "arch": "s390x",
-              "verdict": "Not Run",
-              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-58-41-021"
-            }
-          ],
           "changeRef": "!3707",
           "changeRefUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/merge_requests/3707",
-          "hint": "V01 tests VS Code Desktop SSH with FIPS. code-sshd-rhel9 updated with OpenSSH 9.9 server-side support (!3707). SSH daemon directly affected. Mapped via test-component-mapping: code-sshd-rhel9 -> V01.",
+          "hint": "V01 tests SSH connectivity to workspace. code-sshd-rhel9 rebuilt with OpenSSH 9.9 (!3707), directly affecting SSH server.",
           "proposedSteps": null
         },
         {
           "id": "K01",
-          "title": "Kiro desktop SSH smoke",
+          "title": "Kiro Desktop SSH Editor",
           "priority": 0,
           "testUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/test-cases/-/blob/master/tests/functional/editors/kiro-desktop-ssh/k01-kiro-desktop-ssh-editor-smoke-tests.md",
-          "pipeline": "functional-tests > KiroEditor",
+          "pipeline": "functional-tests > KiroDesktopSshEditor",
           "pipelineUrl": "https://jenkins-csb-crwqe-main.dno.corp.redhat.com/job/Testing/job/e2e/job/complex/job/latest/job/functional-tests/",
           "coveredBy": "functional-tests",
           "coveredByUrls": {
             "functional-tests": "https://jenkins-csb-crwqe-main.dno.corp.redhat.com/job/Testing/job/e2e/job/complex/job/latest/job/functional-tests/"
           },
           "assignee": "olkornii",
-          "polarionResults": [
-            {
-              "arch": "x86_64",
-              "verdict": "Not Run",
-              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-57-43-122"
-            },
-            {
-              "arch": "ppc64le",
-              "verdict": "Not Run",
-              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-58-14-840"
-            },
-            {
-              "arch": "s390x",
-              "verdict": "Not Run",
-              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-58-41-021"
-            }
-          ],
           "changeRef": "!3707",
           "changeRefUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/merge_requests/3707",
-          "hint": "K01 tests Kiro desktop SSH editor. code-sshd-rhel9 updated with OpenSSH 9.9 support (!3707). Also relevant: che-code#729 adds custom URI scheme support for Kiro. Mapped via test-component-mapping: code-sshd-rhel9 -> K01.",
+          "hint": "K01 tests Kiro SSH connectivity. code-sshd-rhel9 rebuilt with OpenSSH 9.9 (!3707).",
           "proposedSteps": null
         }
       ]
@@ -209,14 +176,14 @@ var DATA = {
         {
           "dsCommit": "8b4d02b1",
           "dsTitle": "Update Kiro editor definition to support Code based URIs",
-          "dsUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/commit/8b4d02b1e58f",
+          "dsUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/commit/8b4d02b1e58f92d497221b5901125bb786c27063",
           "mr": "!3721",
           "mrUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/merge_requests/3721",
-          "mrHint": "Commit 8b4d02b1 was introduced by MR !3721. Found via GitLab commits/<sha>/merge_requests API.",
+          "mrHint": "Commit 8b4d02b1 was introduced by MR !3721. Found via commits/<sha>/merge_requests API.",
           "jiras": null,
           "usCommit": null,
-          "usTitle": null,
           "usUrl": null,
+          "usTitle": null,
           "pr": null,
           "prUrl": null,
           "prHint": null,
@@ -230,12 +197,12 @@ var DATA = {
           "mrUrl": null,
           "mrHint": null,
           "jiras": null,
-          "usCommit": null,
-          "usTitle": null,
-          "usUrl": null,
-          "pr": "che-dashboard#1619",
+          "usCommit": "bec6639c",
+          "usTitle": "wait for SCC permission before patching DevWorkspace on first login",
+          "usUrl": "https://github.com/eclipse-che/che-dashboard/commit/bec6639c5b0c2ee8f68bbb6fc58d0de65da4d7ab",
+          "pr": "#1619",
           "prUrl": "https://github.com/eclipse-che/che-dashboard/pull/1619",
-          "prHint": "PR #1619 (wait for SCC permission before patching DevWorkspace on first login) merged June 24 to 7.119.x.",
+          "prHint": "PR #1619 merged June 24 to 7.119.x. Cherry-pick of #1602 (original on main). Adds SCC permission check before patching DevWorkspace on first login.",
           "cheIssues": null
         },
         {
@@ -246,17 +213,17 @@ var DATA = {
           "mrUrl": null,
           "mrHint": null,
           "jiras": null,
-          "usCommit": null,
-          "usTitle": null,
-          "usUrl": null,
-          "pr": "che-dashboard#1618",
+          "usCommit": "55d7b722",
+          "usTitle": "prevent duplicate PATCH requests and user devfile command removal",
+          "usUrl": "https://github.com/eclipse-che/che-dashboard/commit/55d7b722e6c852c44f2fe9f52387ea2023935db3",
+          "pr": "#1618",
           "prUrl": "https://github.com/eclipse-che/che-dashboard/pull/1618",
-          "prHint": "PR #1618 (prevent duplicate PATCH requests and user devfile command removal) merged June 24. Fixes che#23892.",
+          "prHint": "PR #1618 merged June 24 to 7.119.x. Cherry-pick of #1617. Fixes user devfile commands silently removed when AI provider selected.",
           "cheIssues": [
             {
               "id": "che#23892",
               "url": "https://github.com/eclipse-che/che/issues/23892",
-              "hint": "Referenced in PR #1618 body."
+              "hint": "Referenced in PR #1618 body as the issue fixed."
             }
           ]
         },
@@ -268,12 +235,12 @@ var DATA = {
           "mrUrl": null,
           "mrHint": null,
           "jiras": null,
-          "usCommit": null,
-          "usTitle": null,
-          "usUrl": null,
-          "pr": "che-dashboard#1616",
+          "usCommit": "4c36e276",
+          "usTitle": "update link to the AI assistants doc",
+          "usUrl": "https://github.com/eclipse-che/che-dashboard/commit/4c36e2769930",
+          "pr": "#1616",
           "prUrl": "https://github.com/eclipse-che/che-dashboard/pull/1616",
-          "prHint": "PR #1616 (update AI assistants doc link) merged June 23. Fixes che#23891.",
+          "prHint": "PR #1616 merged June 23 to 7.119.x. Cherry-pick of #1614. Updates AI assistants documentation link.",
           "cheIssues": [
             {
               "id": "che#23891",
@@ -293,15 +260,15 @@ var DATA = {
             {
               "id": "CRW-11193",
               "url": "https://redhat.atlassian.net/browse/CRW-11193",
-              "hint": "CRW-11193 referenced in PR #1615 body. Bug: workspace terminal shows pod SA instead of user identity."
+              "hint": "CRW-11193: workspace terminal shows pod SA instead of logged-in user identity since DS 3.28.1."
             }
           ],
-          "usCommit": null,
-          "usTitle": null,
-          "usUrl": null,
-          "pr": "che-dashboard#1615",
+          "usCommit": "7662ca2f",
+          "usTitle": "restore user OAuth token injection in workspace terminals",
+          "usUrl": "https://github.com/eclipse-che/che-dashboard/commit/7662ca2f676d",
+          "pr": "#1615",
           "prUrl": "https://github.com/eclipse-che/che-dashboard/pull/1615",
-          "prHint": "PR #1615 (restore user OAuth token injection) merged June 23. Fixes CRW-11193.",
+          "prHint": "PR #1615 merged June 23 to 7.119.x. Cherry-pick of #1606. Fixes oc whoami returning pod SA instead of user identity.",
           "cheIssues": null
         },
         {
@@ -315,30 +282,30 @@ var DATA = {
             {
               "id": "CRW-11204",
               "url": "https://redhat.atlassian.net/browse/CRW-11204",
-              "hint": "Axios prototype pollution CVE."
+              "hint": "CVE-2026-44495: Axios prototype pollution."
             },
             {
               "id": "CRW-11180",
               "url": "https://redhat.atlassian.net/browse/CRW-11180",
-              "hint": "ip-address XSS CVE."
+              "hint": "CVE-2026-42338: ip-address XSS."
             },
             {
               "id": "CRW-11283",
               "url": "https://redhat.atlassian.net/browse/CRW-11283",
-              "hint": "ws DoS CVE."
+              "hint": "CVE-2026-48779: ws DoS."
             },
             {
               "id": "CRW-11335",
               "url": "https://redhat.atlassian.net/browse/CRW-11335",
-              "hint": "undici MITM CVE."
+              "hint": "CVE-2026-9697: undici MITM."
             }
           ],
-          "usCommit": null,
-          "usTitle": null,
-          "usUrl": null,
-          "pr": "che-dashboard#1613",
+          "usCommit": "45ddfd85",
+          "usTitle": "security dependency upgrades for 7.119.x",
+          "usUrl": "https://github.com/eclipse-che/che-dashboard/commit/45ddfd85b3db",
+          "pr": "#1613",
           "prUrl": "https://github.com/eclipse-che/che-dashboard/pull/1613",
-          "prHint": "PR #1613 (security dependency upgrades for 7.119.x) merged June 22.",
+          "prHint": "PR #1613 merged June 22 to 7.119.x. Cherry-pick of #1603, #1607, #1612. Security dependency upgrades.",
           "cheIssues": null
         }
       ],
@@ -348,140 +315,72 @@ var DATA = {
           "title": "Non-admin user workspace",
           "priority": 0,
           "testUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/test-cases/-/blob/master/tests/functional/user-management/m34-create-and-start-workspace-by-nonclusteradmin-user.md",
-          "pipeline": "functional-tests > EmptyWorkspaceEditorTest",
+          "pipeline": "functional-tests > NonAdminUser",
           "pipelineUrl": "https://jenkins-csb-crwqe-main.dno.corp.redhat.com/job/Testing/job/e2e/job/complex/job/latest/job/functional-tests/",
           "coveredBy": "functional-tests",
           "coveredByUrls": {
             "functional-tests": "https://jenkins-csb-crwqe-main.dno.corp.redhat.com/job/Testing/job/e2e/job/complex/job/latest/job/functional-tests/"
           },
           "assignee": "dnochevn",
-          "polarionResults": [
-            {
-              "arch": "x86_64",
-              "verdict": "Not Run",
-              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-57-43-122"
-            },
-            {
-              "arch": "ppc64le",
-              "verdict": "Not Run",
-              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-58-14-840"
-            },
-            {
-              "arch": "s390x",
-              "verdict": "Not Run",
-              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-58-41-021"
-            }
-          ],
-          "changeRef": "che-dashboard#1615",
+          "changeRef": "#1615",
           "changeRefUrl": "https://github.com/eclipse-che/che-dashboard/pull/1615",
-          "hint": "M34 tests non-admin user workspace creation. Dashboard OAuth token injection fix (CRW-11193 / che-dashboard#1615) directly affects user identity in workspace. Mapped via test-component-mapping: dashboard-rhel9 -> M34.",
-          "proposedSteps": null
-        },
-        {
-          "id": "M81",
-          "title": "Factory from devfile URL",
-          "priority": 0,
-          "testUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/test-cases/-/blob/master/tests/functional/factory/m81-run-factory-test-when-url-points-directly-to-devfile.md",
-          "pipeline": "functional-tests",
-          "pipelineUrl": "https://jenkins-csb-crwqe-main.dno.corp.redhat.com/job/Testing/job/e2e/job/complex/job/latest/job/functional-tests/",
-          "coveredBy": "functional-tests",
-          "coveredByUrls": {
-            "functional-tests": "https://jenkins-csb-crwqe-main.dno.corp.redhat.com/job/Testing/job/e2e/job/complex/job/latest/job/functional-tests/"
-          },
-          "assignee": "olkornii",
-          "polarionResults": [
-            {
-              "arch": "x86_64",
-              "verdict": "Not Run",
-              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-57-43-122"
-            },
-            {
-              "arch": "ppc64le",
-              "verdict": "Not Run",
-              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-58-14-840"
-            },
-            {
-              "arch": "s390x",
-              "verdict": "Not Run",
-              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-58-41-021"
-            }
-          ],
-          "changeRef": "che-dashboard#1618",
-          "changeRefUrl": "https://github.com/eclipse-che/che-dashboard/pull/1618",
-          "hint": "M81 tests factory from devfile URL. Dashboard changed with duplicate PATCH prevention (che-dashboard#1618). Mapped via test-component-mapping: dashboard-rhel9 -> M81.",
+          "hint": "M34 tests non-admin user workspace creation. CRW-11193 (#1615) fixed OAuth token injection affecting non-admin users.",
           "proposedSteps": null
         },
         {
           "id": "M19",
-          "title": "Documentation links in dashboard",
+          "title": "Documentation links",
           "priority": 1,
           "testUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/test-cases/-/blob/master/tests/functional/miscellaneous/m19-check-links-to-documentation-page-in-dashboard.md",
-          "pipeline": "functional-tests",
+          "pipeline": "functional-tests > DocLinksCheck",
           "pipelineUrl": "https://jenkins-csb-crwqe-main.dno.corp.redhat.com/job/Testing/job/e2e/job/complex/job/latest/job/functional-tests/",
           "coveredBy": "functional-tests",
           "coveredByUrls": {
             "functional-tests": "https://jenkins-csb-crwqe-main.dno.corp.redhat.com/job/Testing/job/e2e/job/complex/job/latest/job/functional-tests/"
           },
           "assignee": "dnochevn",
-          "polarionResults": [
-            {
-              "arch": "x86_64",
-              "verdict": "Not Run",
-              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-57-43-122"
-            },
-            {
-              "arch": "ppc64le",
-              "verdict": "Not Run",
-              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-58-14-840"
-            },
-            {
-              "arch": "s390x",
-              "verdict": "Not Run",
-              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-58-41-021"
-            }
-          ],
-          "changeRef": "che-dashboard#1616",
+          "changeRef": "#1616",
           "changeRefUrl": "https://github.com/eclipse-che/che-dashboard/pull/1616",
-          "hint": "M19 tests dashboard documentation links. che-dashboard#1616 updated the AI assistants doc link. Directly affects this test. Mapped via test-component-mapping: dashboard-rhel9 -> M19.",
+          "hint": "M19 tests dashboard documentation links. #1616 updated AI assistants doc link.",
           "proposedSteps": null
         },
         {
           "id": "M20",
-          "title": "User secrets in workspace",
+          "title": "User secrets",
           "priority": 0,
           "testUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/test-cases/-/blob/master/tests/functional/user-management/m20-user-secrets-in-workspace.md",
-          "pipeline": "ds-miscellaneous-tests > UserSecretsTest",
+          "pipeline": "ds-miscellaneous-tests > UserSecrets",
           "pipelineUrl": "https://jenkins-csb-crwqe-main.dno.corp.redhat.com/job/Testing/job/e2e/job/complex/job/latest/job/ds-miscellaneous-tests/",
-          "coveredBy": "ds-miscellaneous-tests",
+          "coveredBy": "functional-tests",
           "coveredByUrls": {
-            "ds-miscellaneous-tests": "https://jenkins-csb-crwqe-main.dno.corp.redhat.com/job/Testing/job/e2e/job/complex/job/latest/job/ds-miscellaneous-tests/"
+            "functional-tests": "https://jenkins-csb-crwqe-main.dno.corp.redhat.com/job/Testing/job/e2e/job/complex/job/latest/job/functional-tests/"
           },
           "assignee": "sskoryk",
-          "polarionResults": [
-            {
-              "arch": "x86_64",
-              "verdict": "Not Run",
-              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-57-43-122"
-            },
-            {
-              "arch": "ppc64le",
-              "verdict": "Not Run",
-              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-58-14-840"
-            },
-            {
-              "arch": "s390x",
-              "verdict": "Not Run",
-              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-58-41-021"
-            }
-          ],
-          "changeRef": "che-dashboard#1615",
+          "changeRef": "#1615",
           "changeRefUrl": "https://github.com/eclipse-che/che-dashboard/pull/1615",
-          "hint": "M20 tests user secrets management. Dashboard OAuth token injection fix (CRW-11193) may affect how secrets are handled. Mapped via test-component-mapping: dashboard-rhel9 -> M20.",
+          "hint": "M20 tests user secrets management. Related to OAuth/authentication changes in #1615.",
+          "proposedSteps": null
+        },
+        {
+          "id": "M55",
+          "title": "Rename workspace",
+          "priority": 0,
+          "testUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/test-cases/-/blob/master/tests/functional/miscellaneous/m55-rename-workspace-test.md",
+          "pipeline": "functional-tests > RenameWorkspace",
+          "pipelineUrl": "https://jenkins-csb-crwqe-main.dno.corp.redhat.com/job/Testing/job/e2e/job/complex/job/latest/job/functional-tests/",
+          "coveredBy": "functional-tests",
+          "coveredByUrls": {
+            "functional-tests": "https://jenkins-csb-crwqe-main.dno.corp.redhat.com/job/Testing/job/e2e/job/complex/job/latest/job/functional-tests/"
+          },
+          "assignee": "sskoryk",
+          "changeRef": "rebuild",
+          "changeRefUrl": null,
+          "hint": "M55 tests workspace rename. dashboard-rhel9 rebuilt, verifies dashboard functionality.",
           "proposedSteps": null
         },
         {
           "id": "M51",
-          "title": "Restart workspace with faulty devfile",
+          "title": "Restart workspace from devfile",
           "priority": 0,
           "testUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/test-cases/-/blob/master/tests/functional/miscellaneous/m51-manual-restart-workspace-with-faulty-devfile.md",
           "pipeline": "(not automated)",
@@ -489,59 +388,55 @@ var DATA = {
           "coveredBy": null,
           "coveredByUrls": {},
           "assignee": "olkornii",
-          "polarionResults": [
-            {
-              "arch": "x86_64",
-              "verdict": "Not Run",
-              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-57-43-122"
-            },
-            {
-              "arch": "ppc64le",
-              "verdict": "Not Run",
-              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-58-14-840"
-            },
-            {
-              "arch": "s390x",
-              "verdict": "Not Run",
-              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-58-41-021"
-            }
-          ],
-          "changeRef": "che-dashboard#1618",
+          "changeRef": "#1618",
           "changeRefUrl": "https://github.com/eclipse-che/che-dashboard/pull/1618",
-          "hint": "M51 tests manual restart from faulty devfile. che-dashboard#1618 (prevent duplicate PATCH + user devfile command removal fix) directly affects workspace restart flow. Mapped via test-component-mapping: dashboard-rhel9, code-rhel9 -> M51, M52.",
+          "hint": "M51 tests workspace restart from devfile. #1618 fixed devfile commands being removed.",
           "proposedSteps": null
         },
         {
-          "id": "U60",
-          "title": "Empty workspace sample E2E",
+          "id": "A01",
+          "title": "AI code assistant",
           "priority": 0,
-          "testUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/test-cases/-/blob/master/tests/functional/editors/vscode/u60-vs-code-empty-workspace-sample-e2e-gui-test.md",
+          "testUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/test-cases/-/blob/master/tests/functional/ai/a01-smoke-tests-of-available-ai-providers.md",
           "pipeline": "(not automated)",
           "pipelineUrl": null,
           "coveredBy": null,
           "coveredByUrls": {},
-          "assignee": "sskoryk",
-          "polarionResults": [
-            {
-              "arch": "x86_64",
-              "verdict": "Not Run",
-              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-57-43-122"
-            },
-            {
-              "arch": "ppc64le",
-              "verdict": "Not Run",
-              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-58-14-840"
-            },
-            {
-              "arch": "s390x",
-              "verdict": "Not Run",
-              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-58-41-021"
-            }
-          ],
-          "changeRef": "che-code#727",
-          "changeRefUrl": "https://github.com/che-incubator/che-code/pull/727",
-          "hint": "U60 tests empty workspace sample with VS Code. che-code#727 disables onboarding modal popup -- this directly affects the empty workspace first-launch experience. Mapped via test-component-mapping: code-rhel9, dashboard-rhel9 -> U56, U60.",
+          "assignee": "dnochevn",
+          "changeRef": "#1616",
+          "changeRefUrl": "https://github.com/eclipse-che/che-dashboard/pull/1616",
+          "hint": "A01 tests AI assistant integration. #1616 updated AI assistants doc link (che#23891).",
           "proposedSteps": null
+        },
+        {
+          "id": "PROPOSED",
+          "title": "Verify SCC permission check on first login",
+          "priority": 0,
+          "testUrl": null,
+          "pipeline": "(not automated)",
+          "pipelineUrl": null,
+          "coveredBy": null,
+          "coveredByUrls": {},
+          "assignee": "",
+          "changeRef": "#1619",
+          "changeRefUrl": "https://github.com/eclipse-che/che-dashboard/pull/1619",
+          "hint": "Proposed test to verify the SCC permission fix from PR #1619.",
+          "proposedSteps": "1. Deploy DS on OCP with restricted SCCs.\n2. Log in as a new user for the first time.\n3. Create a workspace.\n4. Verify DevWorkspace is patched correctly without SCC errors.\nSource: <a href=\"https://github.com/eclipse-che/che-dashboard/pull/1619\" target=\"_blank\">#1619</a>"
+        },
+        {
+          "id": "PROPOSED",
+          "title": "Verify Kiro editor with Code-based URIs",
+          "priority": 0,
+          "testUrl": null,
+          "pipeline": "(not automated)",
+          "pipelineUrl": null,
+          "coveredBy": null,
+          "coveredByUrls": {},
+          "assignee": "",
+          "changeRef": "!3721",
+          "changeRefUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/merge_requests/3721",
+          "hint": "Proposed test to verify Kiro editor definition with Code-based URIs from MR !3721.",
+          "proposedSteps": "1. Configure Kiro editor definition.\n2. Create workspace using Kiro editor.\n3. Verify connection URI uses correct scheme.\nSource: <a href=\"https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/merge_requests/3721\" target=\"_blank\">!3721</a>"
         }
       ]
     },
@@ -550,44 +445,22 @@ var DATA = {
       "changed": true,
       "changes": [
         {
-          "dsCommit": "787d5100",
-          "dsTitle": "chore(3.29): update undici for ovsx",
-          "dsUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/commit/787d51006f9e",
-          "mr": "!3627",
-          "mrUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/merge_requests/3627",
-          "mrHint": "Commit 787d5100 was introduced by MR !3627. Found via GitLab commits/<sha>/merge_requests API.",
-          "jiras": [
-            {
-              "id": "CRW-11332",
-              "url": "https://redhat.atlassian.net/browse/CRW-11332",
-              "hint": "CRW-11332 was found in MR !3627 description. CVE-2026-9697 undici MITM."
-            }
-          ],
-          "usCommit": null,
-          "usTitle": null,
-          "usUrl": null,
-          "pr": null,
-          "prUrl": null,
-          "prHint": null,
-          "cheIssues": null
-        },
-        {
           "dsCommit": "b0811929",
-          "dsTitle": "chore: update OpenSSL to 3.5.5-4 and base image",
-          "dsUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/commit/b0811929ce43",
+          "dsTitle": "update OpenSSL to 3.5.5-4 and base image",
+          "dsUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/commit/b0811929ce434af8724c37f4b4d12fafb87204dc",
           "mr": "!3664",
           "mrUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/merge_requests/3664",
-          "mrHint": "Commit b0811929 was introduced by MR !3664 (OpenSSL update).",
+          "mrHint": "Commit b0811929 was introduced by MR !3664 (OpenSSL 3.5.5-4 update). Found via commits/<sha>/merge_requests API.",
           "jiras": [
             {
               "id": "CRW-11196",
               "url": "https://redhat.atlassian.net/browse/CRW-11196",
-              "hint": "CRW-11196: Apply RHSA-2026:25239 and RHSA-2026:25058 for Team A containers."
+              "hint": "CRW-11196: Apply RHSA-2026:25239 and RHSA-2026:25058 for Team A containers. Affects pluginregistry-rhel9 among others."
             }
           ],
           "usCommit": null,
-          "usTitle": null,
           "usUrl": null,
+          "usTitle": null,
           "pr": null,
           "prUrl": null,
           "prHint": null,
@@ -596,76 +469,41 @@ var DATA = {
       ],
       "tests": [
         {
-          "id": "U61-U70",
-          "title": "Recommended extensions (all samples)",
+          "id": "U59",
+          "title": "Extension activation",
           "priority": 0,
-          "testUrl": null,
-          "pipeline": "typescript-tests > RecommendedExtensions",
+          "testUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/test-cases/-/blob/master/tests/functional/editors/vscode/u59-vs-code-extension-activation-test.md",
+          "pipeline": "typescript-tests > ExtensionActivationTest",
           "pipelineUrl": "https://jenkins-csb-crwqe-main.dno.corp.redhat.com/job/Testing/job/e2e/job/complex/job/latest/job/functional-tests/",
-          "coveredBy": "functional-tests",
+          "coveredBy": "functional-tests, ds-miscellaneous-tests",
           "coveredByUrls": {
-            "functional-tests": "https://jenkins-csb-crwqe-main.dno.corp.redhat.com/job/Testing/job/e2e/job/complex/job/latest/job/functional-tests/"
+            "functional-tests": "https://jenkins-csb-crwqe-main.dno.corp.redhat.com/job/Testing/job/e2e/job/complex/job/latest/job/functional-tests/",
+            "ds-miscellaneous-tests": "https://jenkins-csb-crwqe-main.dno.corp.redhat.com/job/Testing/job/e2e/job/complex/job/latest/job/ds-miscellaneous-tests/"
           },
-          "assignee": "",
-          "polarionResults": [
-            {
-              "arch": "x86_64",
-              "verdict": "Not Run",
-              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-57-43-122"
-            },
-            {
-              "arch": "ppc64le",
-              "verdict": "Not Run",
-              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-58-14-840"
-            },
-            {
-              "arch": "s390x",
-              "verdict": "Not Run",
-              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-58-41-021"
-            }
-          ],
-          "changeRef": "!3627",
-          "changeRefUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/merge_requests/3627",
-          "hint": "U61-U70 test that recommended VS Code extensions install correctly from the embedded OpenVSX registry. pluginregistry-rhel9 was rebuilt with undici security update (!3627/CRW-11332). Mapped via test-component-mapping: pluginregistry-rhel9 -> U61-U70.",
+          "assignee": "sskoryk",
+          "changeRef": "!3664",
+          "changeRefUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/merge_requests/3664",
+          "hint": "U59 tests VS Code extension loading from pluginregistry. pluginregistry-rhel9 rebuilt with OpenSSL 3.5.5-4.",
           "proposedSteps": null
         },
         {
           "id": "U77",
-          "title": "Disable VSIX install",
+          "title": "VSIX disable",
           "priority": 0,
           "testUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/test-cases/-/blob/master/tests/functional/editors/vscode/u77-test-an-ability-to-disable-install-from-vsix-functionality.md",
           "pipeline": "ds-miscellaneous-tests > VsixInstallationDisable",
           "pipelineUrl": "https://jenkins-csb-crwqe-main.dno.corp.redhat.com/job/Testing/job/e2e/job/complex/job/latest/job/ds-miscellaneous-tests/",
-          "coveredBy": "ds-miscellaneous-tests",
-          "coveredByUrls": {
-            "ds-miscellaneous-tests": "https://jenkins-csb-crwqe-main.dno.corp.redhat.com/job/Testing/job/e2e/job/complex/job/latest/job/ds-miscellaneous-tests/"
-          },
+          "coveredBy": null,
+          "coveredByUrls": {},
           "assignee": "olkornii",
-          "polarionResults": [
-            {
-              "arch": "x86_64",
-              "verdict": "Not Run",
-              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-57-43-122"
-            },
-            {
-              "arch": "ppc64le",
-              "verdict": "Not Run",
-              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-58-14-840"
-            },
-            {
-              "arch": "s390x",
-              "verdict": "Not Run",
-              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-58-41-021"
-            }
-          ],
-          "changeRef": "!3627",
-          "changeRefUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/merge_requests/3627",
-          "hint": "U77 tests the ability to disable VSIX installation. pluginregistry-rhel9 serves VSIX files and was rebuilt with undici update (!3627). Mapped via test-component-mapping: pluginregistry-rhel9 -> U77.",
+          "changeRef": "!3664",
+          "changeRefUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/merge_requests/3664",
+          "hint": "U77 tests VSIX disable configuration. Depends on pluginregistry-rhel9.",
           "proposedSteps": null
         },
         {
           "id": "U78",
-          "title": "Popular extensions in empty sample",
+          "title": "Popular extensions",
           "priority": 0,
           "testUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/test-cases/-/blob/master/tests/functional/editors/vscode/u78-popular-extensions-are-available-in-empty-sample-vs-code-edi.md",
           "pipeline": "(not automated)",
@@ -673,95 +511,126 @@ var DATA = {
           "coveredBy": null,
           "coveredByUrls": {},
           "assignee": "dnochevn",
-          "polarionResults": [
-            {
-              "arch": "x86_64",
-              "verdict": "Not Run",
-              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-57-43-122"
-            },
-            {
-              "arch": "ppc64le",
-              "verdict": "Not Run",
-              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-58-14-840"
-            },
-            {
-              "arch": "s390x",
-              "verdict": "Not Run",
-              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-58-41-021"
-            }
-          ],
-          "changeRef": "!3627",
-          "changeRefUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/merge_requests/3627",
-          "hint": "U78 verifies popular extensions are available from the embedded OpenVSX catalog. pluginregistry-rhel9 rebuilt (!3627). Mapped via test-component-mapping: pluginregistry-rhel9 -> U78.",
-          "proposedSteps": null
-        },
-        {
-          "id": "I66",
-          "title": "Custom Che plugin registry",
-          "priority": 0,
-          "testUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/test-cases/-/blob/master/tests/operational/i66-custom-che-plugin-registry.md",
-          "pipeline": "(not automated)",
-          "pipelineUrl": null,
-          "coveredBy": null,
-          "coveredByUrls": {},
-          "assignee": "sskoryk",
-          "polarionResults": [
-            {
-              "arch": "x86_64",
-              "verdict": "Not Run",
-              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-57-43-122"
-            },
-            {
-              "arch": "ppc64le",
-              "verdict": "Not Run",
-              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-58-14-840"
-            },
-            {
-              "arch": "s390x",
-              "verdict": "Not Run",
-              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-58-41-021"
-            }
-          ],
-          "changeRef": "!3627",
-          "changeRefUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/merge_requests/3627",
-          "hint": "I66 tests custom plugin registry setup. pluginregistry-rhel9 rebuilt with undici update. Mapped via test-component-mapping: pluginregistry-rhel9 -> I66.",
-          "proposedSteps": null
-        },
-        {
-          "id": "I74",
-          "title": "Custom Open VSX registry",
-          "priority": 0,
-          "testUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/test-cases/-/blob/master/tests/operational/i74-create-custom-open-vsix-plugin-registry.md",
-          "pipeline": "(not automated)",
-          "pipelineUrl": null,
-          "coveredBy": null,
-          "coveredByUrls": {},
-          "assignee": "sskoryk",
-          "polarionResults": [
-            {
-              "arch": "x86_64",
-              "verdict": "Not Run",
-              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-57-43-122"
-            },
-            {
-              "arch": "ppc64le",
-              "verdict": "Not Run",
-              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-58-14-840"
-            },
-            {
-              "arch": "s390x",
-              "verdict": "Not Run",
-              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-58-41-021"
-            }
-          ],
           "changeRef": "!3664",
           "changeRefUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/merge_requests/3664",
-          "hint": "I74 tests custom OpenVSX registry. pluginregistry-rhel9 rebuilt with OpenSSL update (!3664/CRW-11196). Mapped via test-component-mapping: pluginregistry-rhel9 -> I74.",
+          "hint": "U78 tests OpenVSX catalog. pluginregistry-rhel9 serves the embedded catalog.",
+          "proposedSteps": null
+        }
+      ]
+    },
+    {
+      "name": "configbump-rhel9",
+      "changed": true,
+      "digestMessage": "Digest changed: base image rebuild (go-toolset update)",
+      "tests": [
+        {
+          "id": "I59",
+          "title": "Install Dev Spaces",
+          "priority": 0,
+          "testUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/test-cases/-/blob/master/tests/operational/i59-install-ds-on-online-ocp-420-smoke-tests.md",
+          "pipeline": "functional-tests",
+          "pipelineUrl": "https://jenkins-csb-crwqe-main.dno.corp.redhat.com/job/Testing/job/e2e/job/complex/job/latest/job/functional-tests/",
+          "coveredBy": null,
+          "coveredByUrls": {},
+          "assignee": "dnochevn",
+          "changeRef": "rebuild",
+          "changeRefUrl": null,
+          "hint": "I59 is the primary install + smoke test. configbump-rhel9 rebuilt with go-toolset update.",
+          "proposedSteps": null
+        }
+      ]
+    },
+    {
+      "name": "jetbrains-ide-rhel9",
+      "changed": true,
+      "digestMessage": "Digest changed: base image rebuild",
+      "tests": [
+        {
+          "id": "M22",
+          "title": "IntelliJ IDEA with Java Spring Boot project",
+          "priority": 0,
+          "testUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/test-cases/-/blob/master/tests/functional/editors/idea/m22-test-start-workspace-with-intellij-idea-ultimate-editor-usin.md",
+          "pipeline": "(not automated)",
+          "pipelineUrl": null,
+          "coveredBy": null,
+          "coveredByUrls": {},
+          "assignee": "dnochevn",
+          "changeRef": "rebuild",
+          "changeRefUrl": null,
+          "hint": "M22 tests IntelliJ IDEA editor. jetbrains-ide-rhel9 rebuilt with base image update.",
+          "proposedSteps": null
+        }
+      ]
+    },
+    {
+      "name": "devspaces-rhel9-operator",
+      "changed": true,
+      "digestMessage": "Digest changed: base image rebuild (go-toolset update)",
+      "tests": [
+        {
+          "id": "I59",
+          "title": "Install Dev Spaces",
+          "priority": 0,
+          "testUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/test-cases/-/blob/master/tests/operational/i59-install-ds-on-online-ocp-420-smoke-tests.md",
+          "pipeline": "functional-tests",
+          "pipelineUrl": "https://jenkins-csb-crwqe-main.dno.corp.redhat.com/job/Testing/job/e2e/job/complex/job/latest/job/functional-tests/",
+          "coveredBy": null,
+          "coveredByUrls": {},
+          "assignee": "dnochevn",
+          "changeRef": "rebuild",
+          "changeRefUrl": null,
+          "hint": "I59 is the primary install + smoke test. devspaces-rhel9-operator rebuilt with go-toolset update.",
+          "proposedSteps": null
+        }
+      ]
+    },
+    {
+      "name": "server-rhel9",
+      "changed": true,
+      "digestMessage": "Digest changed: base image rebuild (ubi9-minimal update)",
+      "tests": [
+        {
+          "id": "U42",
+          "title": "Java Quarkus devfile API",
+          "priority": 0,
+          "testUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/test-cases/-/blob/master/tests/functional/editors/vscode/u42-vs-code-java-quarkus-devfile-api-test.md",
+          "pipeline": "api-tests > QuarkusDevFileAPI",
+          "pipelineUrl": "https://jenkins-csb-crwqe-main.dno.corp.redhat.com/job/Testing/job/e2e/job/complex/job/latest/job/functional-tests/",
+          "coveredBy": "functional-tests",
+          "coveredByUrls": {
+            "functional-tests": "https://jenkins-csb-crwqe-main.dno.corp.redhat.com/job/Testing/job/e2e/job/complex/job/latest/job/functional-tests/"
+          },
+          "assignee": "sskoryk",
+          "changeRef": "rebuild",
+          "changeRefUrl": null,
+          "hint": "U42 tests VS Code editor with Java Quarkus workspace. server-rhel9 rebuilt with ubi9-minimal update.",
+          "proposedSteps": null
+        }
+      ]
+    },
+    {
+      "name": "traefik-rhel9",
+      "changed": true,
+      "digestMessage": "Digest changed: base image rebuild (go-toolset update)",
+      "tests": [
+        {
+          "id": "I59",
+          "title": "Install Dev Spaces",
+          "priority": 0,
+          "testUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/test-cases/-/blob/master/tests/operational/i59-install-ds-on-online-ocp-420-smoke-tests.md",
+          "pipeline": "functional-tests",
+          "pipelineUrl": "https://jenkins-csb-crwqe-main.dno.corp.redhat.com/job/Testing/job/e2e/job/complex/job/latest/job/functional-tests/",
+          "coveredBy": null,
+          "coveredByUrls": {},
+          "assignee": "dnochevn",
+          "changeRef": "rebuild",
+          "changeRefUrl": null,
+          "hint": "I59 is the primary install + smoke test. traefik-rhel9 rebuilt with go-toolset update.",
           "proposedSteps": null
         }
       ]
     }
-  ],
+  ]
 };
 
 function esc(s) {
@@ -836,7 +705,6 @@ function renderChanges(changes) {
   return html;
 }
 
-
 function renderTests(tests) {
   if (!tests || !tests.length) return '';
   var prio_labels = {0: 'high', 1: 'medium', 2: 'low'};
@@ -881,12 +749,11 @@ function renderTests(tests) {
 
 function renderTree() {
   var html = '';
-  // Components
   for (var i = 0; i < DATA.components.length; i++) {
     var comp = DATA.components[i];
     var changedClass = comp.changed ? '' : ' unchanged';
     var changedLabel = comp.changed ? 'changed' : 'unchanged';
-    var hasContent = (comp.changes && comp.changes.length) || (comp.tests && comp.tests.length);
+    var hasContent = (comp.changes && comp.changes.length) || (comp.tests && comp.tests.length) || comp.digestMessage;
     html += '<li class="' + changedClass + '">';
     html += '<div class="node collapsible" onclick="toggle(this)">';
     html += '<span class="toggle">+</span>';
@@ -896,7 +763,11 @@ function renderTree() {
     html += '</div>';
     if (hasContent) {
       html += '<ul class="hidden">';
-      if (comp.changes && comp.changes.length) {
+      if (comp.digestMessage) {
+        html += '<li>';
+        html += '<div class="digest-message">' + esc(comp.digestMessage) + '</div>';
+        html += '</li>';
+      } else if (comp.changes && comp.changes.length) {
         html += '<li>';
         html += '<div class="node collapsible" onclick="toggleTable(this)">';
         html += '<span class="toggle">-</span>';
@@ -950,7 +821,7 @@ function toggle(el) {
 }
 
 function expandAll() {
-  var items = document.querySelectorAll('.tree ul');
+  var items = document.querySelectorAll('.tree ul, .tests-wrapper');
   for (var i = 0; i < items.length; i++) items[i].classList.remove('hidden');
   var toggles = document.querySelectorAll('.toggle');
   for (var i = 0; i < toggles.length; i++) if (toggles[i].textContent === '+') toggles[i].textContent = '-';
