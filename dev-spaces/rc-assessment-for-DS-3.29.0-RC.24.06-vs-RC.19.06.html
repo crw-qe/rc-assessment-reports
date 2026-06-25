@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC Change Map: DS 3.29.0-RC.24.06 vs RC.19.06</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 17px; color: #1a1a1a; background: #fafafa; padding: 20px; }
+  h1 { font-size: 24px; margin-bottom: 4px; }
+  .subtitle { color: #666; font-size: 15px; margin-bottom: 16px; }
+  .toolbar { display: flex; gap: 10px; margin-bottom: 16px; align-items: center; }
+  .toolbar input { padding: 6px 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 15px; width: 300px; }
+  .toolbar button { padding: 6px 12px; border: 1px solid #ccc; border-radius: 4px; background: #fff; cursor: pointer; font-size: 15px; }
+  .toolbar button:hover { background: #f0f0f0; }
+  .tree { list-style: none; padding-left: 0; }
+  .tree ul { list-style: none; padding-left: 22px; border-left: 1px solid #ddd; margin-left: 8px; }
+  .tree li { position: relative; padding: 3px 0; }
+  .node { display: inline-flex; align-items: center; gap: 6px; cursor: default; padding: 3px 6px; border-radius: 3px; }
+  .node.collapsible { cursor: pointer; }
+  .node.collapsible:hover { background: #eef2ff; }
+  .toggle { display: inline-block; width: 14px; font-size: 11px; color: #888; text-align: center; flex-shrink: 0; }
+  .tag { display: inline-block; padding: 2px 6px; border-radius: 3px; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; }
+  .tag-component { background: #dbeafe; color: #1e40af; }
+  .tag-issue { background: #fef3c7; color: #92400e; }
+  .tag-pr { background: #d1fae5; color: #065f46; }
+  .tag-mr { background: #ede9fe; color: #5b21b6; }
+  .tag-commit { background: #f3f4f6; color: #374151; }
+  .tag-test { background: #fce7f3; color: #9d174d; }
+  .tag-pipeline { background: #ffedd5; color: #9a3412; }
+  .tag-fix { background: #e0e7ff; color: #3730a3; }
+  .tag-tests-group { background: #fce7f3; color: #9d174d; }
+  .label { font-size: 16px; }
+  .label a { color: #2563eb; text-decoration: none; }
+  .label a:hover { text-decoration: underline; }
+  .meta { color: #888; font-size: 14px; }
+  .unchanged { opacity: 0.45; }
+  .unchanged .tag-component { background: #f3f4f6; color: #9ca3af; }
+  .priority { display: inline-block; padding: 1px 5px; border-radius: 2px; font-size: 13px; font-weight: 600; }
+  .p0 { background: #fee2e2; color: #991b1b; }
+  .p1 { background: #fef3c7; color: #92400e; }
+  .p2 { background: #f3f4f6; color: #6b7280; }
+  .hidden { display: none; }
+  .match { background: #fef08a; }
+  .summary { margin: 16px 0; padding: 16px 20px; background: #fff; border: 1px solid #e5e7eb; border-radius: 6px; font-size: 16px; color: #374151; line-height: 1.8; }
+  .summary strong { color: #1a1a1a; }
+  .summary h2 { font-size: 18px; margin: 14px 0 6px 0; color: #1a1a1a; }
+  .summary h2:first-child { margin-top: 0; }
+  .summary ul { margin: 4px 0 4px 20px; }
+  .summary li { margin: 2px 0; }
+  .summary a { color: #2563eb; text-decoration: none; }
+  .summary a:hover { text-decoration: underline; }
+  .summary table { border-collapse: collapse; margin: 8px 0; font-size: 15px; }
+  .summary th, .summary td { border: 1px solid #e5e7eb; padding: 5px 12px; text-align: left; }
+  .summary th { background: #f9fafb; font-weight: 600; }
+  h2.section-title { font-size: 19px; margin: 20px 0 8px 0; }
+  .proposed-steps { white-space: pre-line; padding: 8px 12px; background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 4px; margin: 4px 0; font-size: 14px; line-height: 1.6; }
+  .proposed-steps a { color: #2563eb; text-decoration: none; }
+  .proposed-steps a:hover { text-decoration: underline; }
+  .hint-btn { display: inline-block; cursor: pointer; color: #6b7280; font-size: 11px; vertical-align: super; margin-left: 2px; background: #f3f4f6; border: 1px solid #d1d5db; border-radius: 3px; padding: 0 3px; line-height: 1.4; }
+  .hint-btn:hover { background: #e5e7eb; color: #374151; }
+  .hint-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); z-index: 1000; }
+  .hint-popup { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #fff; border: 1px solid #d1d5db; border-radius: 8px; padding: 20px 24px; max-width: 600px; width: 90%; z-index: 1001; box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+  .hint-popup-text { font-size: 15px; line-height: 1.7; color: #1a1a1a; white-space: pre-line; margin-bottom: 14px; }
+  .hint-popup-actions { display: flex; gap: 8px; justify-content: flex-end; }
+  .hint-popup-actions button { padding: 6px 14px; border: 1px solid #d1d5db; border-radius: 4px; background: #fff; cursor: pointer; font-size: 14px; }
+  .hint-popup-actions button:hover { background: #f3f4f6; }
+  .hint-popup-actions .copy-btn { background: #2563eb; color: #fff; border-color: #2563eb; }
+  .hint-popup-actions .copy-btn:hover { background: #1d4ed8; }
+  .tests-table { border-collapse: collapse; margin: 6px 0 6px 30px; font-size: 15px; width: calc(100% - 30px); }
+  .tests-table th, .tests-table td { border: 1px solid #e5e7eb; padding: 5px 10px; text-align: left; }
+  .tests-table th { background: #f9fafb; font-weight: 600; font-size: 13px; text-transform: uppercase; letter-spacing: 0.3px; }
+  .tests-table td a { color: #2563eb; text-decoration: none; }
+  .tests-table td a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<h1>RC Change Map: DS 3.29.0-RC.24.06 vs RC.19.06</h1>
+<div class="subtitle">Delta: June 19 -> June 24 on 3.29.x / 7.119.x release branches</div>
+
+<div class="summary"><h2>Changed Components</h2>
+<ul>
+<li><strong>code-sshd-rhel9</strong>: OpenSSH 9.9 server-side support (<a href="https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/merge_requests/3707" target="_blank">!3707</a>)</li>
+<li><strong>dashboard-rhel9</strong>: OAuth token injection fix (<a href="https://redhat.atlassian.net/browse/CRW-11193" target="_blank">CRW-11193</a>), security dependency upgrades (<a href="https://redhat.atlassian.net/browse/CRW-11204" target="_blank">CRW-11204</a>, <a href="https://redhat.atlassian.net/browse/CRW-11180" target="_blank">CRW-11180</a>, <a href="https://redhat.atlassian.net/browse/CRW-11283" target="_blank">CRW-11283</a>, <a href="https://redhat.atlassian.net/browse/CRW-11335" target="_blank">CRW-11335</a>), Kiro editor URI definition (<a href="https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/merge_requests/3721" target="_blank">!3721</a>), upstream fixes (<a href="https://github.com/eclipse-che/che-dashboard/pull/1619" target="_blank">#1619</a>, <a href="https://github.com/eclipse-che/che-dashboard/pull/1618" target="_blank">#1618</a>, <a href="https://github.com/eclipse-che/che-dashboard/pull/1616" target="_blank">#1616</a>)</li>
+<li><strong>pluginregistry-rhel9 (OpenVSX)</strong>: undici security update (<a href="https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/merge_requests/3627" target="_blank">!3627</a>, <a href="https://redhat.atlassian.net/browse/CRW-11332" target="_blank">CRW-11332</a>) + OpenSSL 3.5.5-4 update (<a href="https://redhat.atlassian.net/browse/CRW-11196" target="_blank">CRW-11196</a>)</li>
+</ul>
+<h2>Unchanged Components</h2>
+<ul>
+<li><strong>code-rhel9, udi-rhel9, imagepuller-rhel9</strong>: digest unchanged since RC.19.06</li>
+<li><strong>configbump-rhel9, jetbrains-ide-rhel9, devspaces-rhel9-operator, server-rhel9, traefik-rhel9</strong>: digest changed (base image rebuilds only, no functional changes)</li>
+</ul>
+<h2>Caveats</h2>
+<ul>
+<li>Upstream che-code PRs (<a href="https://github.com/che-incubator/che-code/pull/729" target="_blank">#729</a>, <a href="https://github.com/che-incubator/che-code/pull/727" target="_blank">#727</a>, <a href="https://github.com/che-incubator/che-code/pull/724" target="_blank">#724</a>) merged to 7.119.x but code-rhel9 has not been rebuilt yet.</li>
+<li>No upstream che-server or che-operator PRs in the delta window.</li>
+</ul></div>
+
+<h2 class="section-title">Change Map</h2>
+<div class="toolbar">
+  <input type="text" id="search" placeholder="Filter by test ID, ticket, component...">
+  <button onclick="expandAll()">Expand all</button>
+  <button onclick="collapseAll()">Collapse all</button>
+</div>
+
+<ul class="tree" id="tree"></ul>
+
+<script>
+var DATA = {
+  "title": "DS 3.29.0-RC.24.06 vs RC.19.06",
+  "subtitle": "Delta: June 19 -> June 24 on 3.29.x / 7.119.x release branches",
+  "components": [
+    {
+      "name": "code-sshd-rhel9",
+      "changed": true,
+      "changes": [
+        {
+          "dsCommit": "fa0aa107",
+          "dsTitle": "Include change required for OpenSSH 9.9 server-side support",
+          "dsUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/commit/fa0aa1076a8f",
+          "mr": "!3707",
+          "mrUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/merge_requests/3707",
+          "mrHint": "Commit fa0aa107 was introduced by MR !3707. Found via GitLab commits/<sha>/merge_requests API.",
+          "jiras": null,
+          "usCommit": null,
+          "usTitle": null,
+          "usUrl": null,
+          "pr": null,
+          "prUrl": null,
+          "prHint": null,
+          "cheIssues": null
+        }
+      ],
+      "tests": [
+        {
+          "id": "V01",
+          "title": "VS Code Desktop SSH FIPS",
+          "priority": 0,
+          "testUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/test-cases/-/blob/master/tests/functional/editors/vscode-desktop-ssh/v01-visual-studio-code-desktop-ssh-editor-smoke-tests-with-fips.md",
+          "pipeline": "functional-tests > VsCodeDesktopSshEditor",
+          "pipelineUrl": "https://jenkins-csb-crwqe-main.dno.corp.redhat.com/job/Testing/job/e2e/job/complex/job/latest/job/functional-tests/",
+          "coveredBy": "functional-tests",
+          "coveredByUrls": {
+            "functional-tests": "https://jenkins-csb-crwqe-main.dno.corp.redhat.com/job/Testing/job/e2e/job/complex/job/latest/job/functional-tests/"
+          },
+          "assignee": "dnochevn",
+          "polarionResults": [
+            {
+              "arch": "x86_64",
+              "verdict": "Not Run",
+              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-57-43-122"
+            },
+            {
+              "arch": "ppc64le",
+              "verdict": "Not Run",
+              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-58-14-840"
+            },
+            {
+              "arch": "s390x",
+              "verdict": "Not Run",
+              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-58-41-021"
+            }
+          ],
+          "changeRef": "!3707",
+          "changeRefUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/merge_requests/3707",
+          "hint": "V01 tests VS Code Desktop SSH with FIPS. code-sshd-rhel9 updated with OpenSSH 9.9 server-side support (!3707). SSH daemon directly affected. Mapped via test-component-mapping: code-sshd-rhel9 -> V01.",
+          "proposedSteps": null
+        },
+        {
+          "id": "K01",
+          "title": "Kiro desktop SSH smoke",
+          "priority": 0,
+          "testUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/test-cases/-/blob/master/tests/functional/editors/kiro-desktop-ssh/k01-kiro-desktop-ssh-editor-smoke-tests.md",
+          "pipeline": "functional-tests > KiroEditor",
+          "pipelineUrl": "https://jenkins-csb-crwqe-main.dno.corp.redhat.com/job/Testing/job/e2e/job/complex/job/latest/job/functional-tests/",
+          "coveredBy": "functional-tests",
+          "coveredByUrls": {
+            "functional-tests": "https://jenkins-csb-crwqe-main.dno.corp.redhat.com/job/Testing/job/e2e/job/complex/job/latest/job/functional-tests/"
+          },
+          "assignee": "olkornii",
+          "polarionResults": [
+            {
+              "arch": "x86_64",
+              "verdict": "Not Run",
+              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-57-43-122"
+            },
+            {
+              "arch": "ppc64le",
+              "verdict": "Not Run",
+              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-58-14-840"
+            },
+            {
+              "arch": "s390x",
+              "verdict": "Not Run",
+              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-58-41-021"
+            }
+          ],
+          "changeRef": "!3707",
+          "changeRefUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/merge_requests/3707",
+          "hint": "K01 tests Kiro desktop SSH editor. code-sshd-rhel9 updated with OpenSSH 9.9 support (!3707). Also relevant: che-code#729 adds custom URI scheme support for Kiro. Mapped via test-component-mapping: code-sshd-rhel9 -> K01.",
+          "proposedSteps": null
+        }
+      ]
+    },
+    {
+      "name": "dashboard-rhel9",
+      "changed": true,
+      "changes": [
+        {
+          "dsCommit": "8b4d02b1",
+          "dsTitle": "Update Kiro editor definition to support Code based URIs",
+          "dsUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/commit/8b4d02b1e58f",
+          "mr": "!3721",
+          "mrUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/merge_requests/3721",
+          "mrHint": "Commit 8b4d02b1 was introduced by MR !3721. Found via GitLab commits/<sha>/merge_requests API.",
+          "jiras": null,
+          "usCommit": null,
+          "usTitle": null,
+          "usUrl": null,
+          "pr": null,
+          "prUrl": null,
+          "prHint": null,
+          "cheIssues": null
+        },
+        {
+          "dsCommit": null,
+          "dsTitle": null,
+          "dsUrl": null,
+          "mr": null,
+          "mrUrl": null,
+          "mrHint": null,
+          "jiras": null,
+          "usCommit": null,
+          "usTitle": null,
+          "usUrl": null,
+          "pr": "che-dashboard#1619",
+          "prUrl": "https://github.com/eclipse-che/che-dashboard/pull/1619",
+          "prHint": "PR #1619 (wait for SCC permission before patching DevWorkspace on first login) merged June 24 to 7.119.x.",
+          "cheIssues": null
+        },
+        {
+          "dsCommit": null,
+          "dsTitle": null,
+          "dsUrl": null,
+          "mr": null,
+          "mrUrl": null,
+          "mrHint": null,
+          "jiras": null,
+          "usCommit": null,
+          "usTitle": null,
+          "usUrl": null,
+          "pr": "che-dashboard#1618",
+          "prUrl": "https://github.com/eclipse-che/che-dashboard/pull/1618",
+          "prHint": "PR #1618 (prevent duplicate PATCH requests and user devfile command removal) merged June 24. Fixes che#23892.",
+          "cheIssues": [
+            {
+              "id": "che#23892",
+              "url": "https://github.com/eclipse-che/che/issues/23892",
+              "hint": "Referenced in PR #1618 body."
+            }
+          ]
+        },
+        {
+          "dsCommit": null,
+          "dsTitle": null,
+          "dsUrl": null,
+          "mr": null,
+          "mrUrl": null,
+          "mrHint": null,
+          "jiras": null,
+          "usCommit": null,
+          "usTitle": null,
+          "usUrl": null,
+          "pr": "che-dashboard#1616",
+          "prUrl": "https://github.com/eclipse-che/che-dashboard/pull/1616",
+          "prHint": "PR #1616 (update AI assistants doc link) merged June 23. Fixes che#23891.",
+          "cheIssues": [
+            {
+              "id": "che#23891",
+              "url": "https://github.com/eclipse-che/che/issues/23891",
+              "hint": "Referenced in PR #1616 body."
+            }
+          ]
+        },
+        {
+          "dsCommit": null,
+          "dsTitle": null,
+          "dsUrl": null,
+          "mr": null,
+          "mrUrl": null,
+          "mrHint": null,
+          "jiras": [
+            {
+              "id": "CRW-11193",
+              "url": "https://redhat.atlassian.net/browse/CRW-11193",
+              "hint": "CRW-11193 referenced in PR #1615 body. Bug: workspace terminal shows pod SA instead of user identity."
+            }
+          ],
+          "usCommit": null,
+          "usTitle": null,
+          "usUrl": null,
+          "pr": "che-dashboard#1615",
+          "prUrl": "https://github.com/eclipse-che/che-dashboard/pull/1615",
+          "prHint": "PR #1615 (restore user OAuth token injection) merged June 23. Fixes CRW-11193.",
+          "cheIssues": null
+        },
+        {
+          "dsCommit": null,
+          "dsTitle": null,
+          "dsUrl": null,
+          "mr": null,
+          "mrUrl": null,
+          "mrHint": null,
+          "jiras": [
+            {
+              "id": "CRW-11204",
+              "url": "https://redhat.atlassian.net/browse/CRW-11204",
+              "hint": "Axios prototype pollution CVE."
+            },
+            {
+              "id": "CRW-11180",
+              "url": "https://redhat.atlassian.net/browse/CRW-11180",
+              "hint": "ip-address XSS CVE."
+            },
+            {
+              "id": "CRW-11283",
+              "url": "https://redhat.atlassian.net/browse/CRW-11283",
+              "hint": "ws DoS CVE."
+            },
+            {
+              "id": "CRW-11335",
+              "url": "https://redhat.atlassian.net/browse/CRW-11335",
+              "hint": "undici MITM CVE."
+            }
+          ],
+          "usCommit": null,
+          "usTitle": null,
+          "usUrl": null,
+          "pr": "che-dashboard#1613",
+          "prUrl": "https://github.com/eclipse-che/che-dashboard/pull/1613",
+          "prHint": "PR #1613 (security dependency upgrades for 7.119.x) merged June 22.",
+          "cheIssues": null
+        }
+      ],
+      "tests": [
+        {
+          "id": "M34",
+          "title": "Non-admin user workspace",
+          "priority": 0,
+          "testUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/test-cases/-/blob/master/tests/functional/user-management/m34-create-and-start-workspace-by-nonclusteradmin-user.md",
+          "pipeline": "functional-tests > EmptyWorkspaceEditorTest",
+          "pipelineUrl": "https://jenkins-csb-crwqe-main.dno.corp.redhat.com/job/Testing/job/e2e/job/complex/job/latest/job/functional-tests/",
+          "coveredBy": "functional-tests",
+          "coveredByUrls": {
+            "functional-tests": "https://jenkins-csb-crwqe-main.dno.corp.redhat.com/job/Testing/job/e2e/job/complex/job/latest/job/functional-tests/"
+          },
+          "assignee": "dnochevn",
+          "polarionResults": [
+            {
+              "arch": "x86_64",
+              "verdict": "Not Run",
+              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-57-43-122"
+            },
+            {
+              "arch": "ppc64le",
+              "verdict": "Not Run",
+              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-58-14-840"
+            },
+            {
+              "arch": "s390x",
+              "verdict": "Not Run",
+              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-58-41-021"
+            }
+          ],
+          "changeRef": "che-dashboard#1615",
+          "changeRefUrl": "https://github.com/eclipse-che/che-dashboard/pull/1615",
+          "hint": "M34 tests non-admin user workspace creation. Dashboard OAuth token injection fix (CRW-11193 / che-dashboard#1615) directly affects user identity in workspace. Mapped via test-component-mapping: dashboard-rhel9 -> M34.",
+          "proposedSteps": null
+        },
+        {
+          "id": "M81",
+          "title": "Factory from devfile URL",
+          "priority": 0,
+          "testUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/test-cases/-/blob/master/tests/functional/factory/m81-run-factory-test-when-url-points-directly-to-devfile.md",
+          "pipeline": "functional-tests",
+          "pipelineUrl": "https://jenkins-csb-crwqe-main.dno.corp.redhat.com/job/Testing/job/e2e/job/complex/job/latest/job/functional-tests/",
+          "coveredBy": "functional-tests",
+          "coveredByUrls": {
+            "functional-tests": "https://jenkins-csb-crwqe-main.dno.corp.redhat.com/job/Testing/job/e2e/job/complex/job/latest/job/functional-tests/"
+          },
+          "assignee": "olkornii",
+          "polarionResults": [
+            {
+              "arch": "x86_64",
+              "verdict": "Not Run",
+              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-57-43-122"
+            },
+            {
+              "arch": "ppc64le",
+              "verdict": "Not Run",
+              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-58-14-840"
+            },
+            {
+              "arch": "s390x",
+              "verdict": "Not Run",
+              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-58-41-021"
+            }
+          ],
+          "changeRef": "che-dashboard#1618",
+          "changeRefUrl": "https://github.com/eclipse-che/che-dashboard/pull/1618",
+          "hint": "M81 tests factory from devfile URL. Dashboard changed with duplicate PATCH prevention (che-dashboard#1618). Mapped via test-component-mapping: dashboard-rhel9 -> M81.",
+          "proposedSteps": null
+        },
+        {
+          "id": "M19",
+          "title": "Documentation links in dashboard",
+          "priority": 1,
+          "testUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/test-cases/-/blob/master/tests/functional/miscellaneous/m19-check-links-to-documentation-page-in-dashboard.md",
+          "pipeline": "functional-tests",
+          "pipelineUrl": "https://jenkins-csb-crwqe-main.dno.corp.redhat.com/job/Testing/job/e2e/job/complex/job/latest/job/functional-tests/",
+          "coveredBy": "functional-tests",
+          "coveredByUrls": {
+            "functional-tests": "https://jenkins-csb-crwqe-main.dno.corp.redhat.com/job/Testing/job/e2e/job/complex/job/latest/job/functional-tests/"
+          },
+          "assignee": "dnochevn",
+          "polarionResults": [
+            {
+              "arch": "x86_64",
+              "verdict": "Not Run",
+              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-57-43-122"
+            },
+            {
+              "arch": "ppc64le",
+              "verdict": "Not Run",
+              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-58-14-840"
+            },
+            {
+              "arch": "s390x",
+              "verdict": "Not Run",
+              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-58-41-021"
+            }
+          ],
+          "changeRef": "che-dashboard#1616",
+          "changeRefUrl": "https://github.com/eclipse-che/che-dashboard/pull/1616",
+          "hint": "M19 tests dashboard documentation links. che-dashboard#1616 updated the AI assistants doc link. Directly affects this test. Mapped via test-component-mapping: dashboard-rhel9 -> M19.",
+          "proposedSteps": null
+        },
+        {
+          "id": "M20",
+          "title": "User secrets in workspace",
+          "priority": 0,
+          "testUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/test-cases/-/blob/master/tests/functional/user-management/m20-user-secrets-in-workspace.md",
+          "pipeline": "ds-miscellaneous-tests > UserSecretsTest",
+          "pipelineUrl": "https://jenkins-csb-crwqe-main.dno.corp.redhat.com/job/Testing/job/e2e/job/complex/job/latest/job/ds-miscellaneous-tests/",
+          "coveredBy": "ds-miscellaneous-tests",
+          "coveredByUrls": {
+            "ds-miscellaneous-tests": "https://jenkins-csb-crwqe-main.dno.corp.redhat.com/job/Testing/job/e2e/job/complex/job/latest/job/ds-miscellaneous-tests/"
+          },
+          "assignee": "sskoryk",
+          "polarionResults": [
+            {
+              "arch": "x86_64",
+              "verdict": "Not Run",
+              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-57-43-122"
+            },
+            {
+              "arch": "ppc64le",
+              "verdict": "Not Run",
+              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-58-14-840"
+            },
+            {
+              "arch": "s390x",
+              "verdict": "Not Run",
+              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-58-41-021"
+            }
+          ],
+          "changeRef": "che-dashboard#1615",
+          "changeRefUrl": "https://github.com/eclipse-che/che-dashboard/pull/1615",
+          "hint": "M20 tests user secrets management. Dashboard OAuth token injection fix (CRW-11193) may affect how secrets are handled. Mapped via test-component-mapping: dashboard-rhel9 -> M20.",
+          "proposedSteps": null
+        },
+        {
+          "id": "M51",
+          "title": "Restart workspace with faulty devfile",
+          "priority": 0,
+          "testUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/test-cases/-/blob/master/tests/functional/miscellaneous/m51-manual-restart-workspace-with-faulty-devfile.md",
+          "pipeline": "(not automated)",
+          "pipelineUrl": null,
+          "coveredBy": null,
+          "coveredByUrls": {},
+          "assignee": "olkornii",
+          "polarionResults": [
+            {
+              "arch": "x86_64",
+              "verdict": "Not Run",
+              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-57-43-122"
+            },
+            {
+              "arch": "ppc64le",
+              "verdict": "Not Run",
+              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-58-14-840"
+            },
+            {
+              "arch": "s390x",
+              "verdict": "Not Run",
+              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-58-41-021"
+            }
+          ],
+          "changeRef": "che-dashboard#1618",
+          "changeRefUrl": "https://github.com/eclipse-che/che-dashboard/pull/1618",
+          "hint": "M51 tests manual restart from faulty devfile. che-dashboard#1618 (prevent duplicate PATCH + user devfile command removal fix) directly affects workspace restart flow. Mapped via test-component-mapping: dashboard-rhel9, code-rhel9 -> M51, M52.",
+          "proposedSteps": null
+        },
+        {
+          "id": "U60",
+          "title": "Empty workspace sample E2E",
+          "priority": 0,
+          "testUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/test-cases/-/blob/master/tests/functional/editors/vscode/u60-vs-code-empty-workspace-sample-e2e-gui-test.md",
+          "pipeline": "(not automated)",
+          "pipelineUrl": null,
+          "coveredBy": null,
+          "coveredByUrls": {},
+          "assignee": "sskoryk",
+          "polarionResults": [
+            {
+              "arch": "x86_64",
+              "verdict": "Not Run",
+              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-57-43-122"
+            },
+            {
+              "arch": "ppc64le",
+              "verdict": "Not Run",
+              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-58-14-840"
+            },
+            {
+              "arch": "s390x",
+              "verdict": "Not Run",
+              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-58-41-021"
+            }
+          ],
+          "changeRef": "che-code#727",
+          "changeRefUrl": "https://github.com/che-incubator/che-code/pull/727",
+          "hint": "U60 tests empty workspace sample with VS Code. che-code#727 disables onboarding modal popup -- this directly affects the empty workspace first-launch experience. Mapped via test-component-mapping: code-rhel9, dashboard-rhel9 -> U56, U60.",
+          "proposedSteps": null
+        }
+      ]
+    },
+    {
+      "name": "pluginregistry-rhel9 (OpenVSX)",
+      "changed": true,
+      "changes": [
+        {
+          "dsCommit": "787d5100",
+          "dsTitle": "chore(3.29): update undici for ovsx",
+          "dsUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/commit/787d51006f9e",
+          "mr": "!3627",
+          "mrUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/merge_requests/3627",
+          "mrHint": "Commit 787d5100 was introduced by MR !3627. Found via GitLab commits/<sha>/merge_requests API.",
+          "jiras": [
+            {
+              "id": "CRW-11332",
+              "url": "https://redhat.atlassian.net/browse/CRW-11332",
+              "hint": "CRW-11332 was found in MR !3627 description. CVE-2026-9697 undici MITM."
+            }
+          ],
+          "usCommit": null,
+          "usTitle": null,
+          "usUrl": null,
+          "pr": null,
+          "prUrl": null,
+          "prHint": null,
+          "cheIssues": null
+        },
+        {
+          "dsCommit": "b0811929",
+          "dsTitle": "chore: update OpenSSL to 3.5.5-4 and base image",
+          "dsUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/commit/b0811929ce43",
+          "mr": "!3664",
+          "mrUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/merge_requests/3664",
+          "mrHint": "Commit b0811929 was introduced by MR !3664 (OpenSSL update).",
+          "jiras": [
+            {
+              "id": "CRW-11196",
+              "url": "https://redhat.atlassian.net/browse/CRW-11196",
+              "hint": "CRW-11196: Apply RHSA-2026:25239 and RHSA-2026:25058 for Team A containers."
+            }
+          ],
+          "usCommit": null,
+          "usTitle": null,
+          "usUrl": null,
+          "pr": null,
+          "prUrl": null,
+          "prHint": null,
+          "cheIssues": null
+        }
+      ],
+      "tests": [
+        {
+          "id": "U61-U70",
+          "title": "Recommended extensions (all samples)",
+          "priority": 0,
+          "testUrl": null,
+          "pipeline": "typescript-tests > RecommendedExtensions",
+          "pipelineUrl": "https://jenkins-csb-crwqe-main.dno.corp.redhat.com/job/Testing/job/e2e/job/complex/job/latest/job/functional-tests/",
+          "coveredBy": "functional-tests",
+          "coveredByUrls": {
+            "functional-tests": "https://jenkins-csb-crwqe-main.dno.corp.redhat.com/job/Testing/job/e2e/job/complex/job/latest/job/functional-tests/"
+          },
+          "assignee": "",
+          "polarionResults": [
+            {
+              "arch": "x86_64",
+              "verdict": "Not Run",
+              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-57-43-122"
+            },
+            {
+              "arch": "ppc64le",
+              "verdict": "Not Run",
+              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-58-14-840"
+            },
+            {
+              "arch": "s390x",
+              "verdict": "Not Run",
+              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-58-41-021"
+            }
+          ],
+          "changeRef": "!3627",
+          "changeRefUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/merge_requests/3627",
+          "hint": "U61-U70 test that recommended VS Code extensions install correctly from the embedded OpenVSX registry. pluginregistry-rhel9 was rebuilt with undici security update (!3627/CRW-11332). Mapped via test-component-mapping: pluginregistry-rhel9 -> U61-U70.",
+          "proposedSteps": null
+        },
+        {
+          "id": "U77",
+          "title": "Disable VSIX install",
+          "priority": 0,
+          "testUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/test-cases/-/blob/master/tests/functional/editors/vscode/u77-test-an-ability-to-disable-install-from-vsix-functionality.md",
+          "pipeline": "ds-miscellaneous-tests > VsixInstallationDisable",
+          "pipelineUrl": "https://jenkins-csb-crwqe-main.dno.corp.redhat.com/job/Testing/job/e2e/job/complex/job/latest/job/ds-miscellaneous-tests/",
+          "coveredBy": "ds-miscellaneous-tests",
+          "coveredByUrls": {
+            "ds-miscellaneous-tests": "https://jenkins-csb-crwqe-main.dno.corp.redhat.com/job/Testing/job/e2e/job/complex/job/latest/job/ds-miscellaneous-tests/"
+          },
+          "assignee": "olkornii",
+          "polarionResults": [
+            {
+              "arch": "x86_64",
+              "verdict": "Not Run",
+              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-57-43-122"
+            },
+            {
+              "arch": "ppc64le",
+              "verdict": "Not Run",
+              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-58-14-840"
+            },
+            {
+              "arch": "s390x",
+              "verdict": "Not Run",
+              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-58-41-021"
+            }
+          ],
+          "changeRef": "!3627",
+          "changeRefUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/merge_requests/3627",
+          "hint": "U77 tests the ability to disable VSIX installation. pluginregistry-rhel9 serves VSIX files and was rebuilt with undici update (!3627). Mapped via test-component-mapping: pluginregistry-rhel9 -> U77.",
+          "proposedSteps": null
+        },
+        {
+          "id": "U78",
+          "title": "Popular extensions in empty sample",
+          "priority": 0,
+          "testUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/test-cases/-/blob/master/tests/functional/editors/vscode/u78-popular-extensions-are-available-in-empty-sample-vs-code-edi.md",
+          "pipeline": "(not automated)",
+          "pipelineUrl": null,
+          "coveredBy": null,
+          "coveredByUrls": {},
+          "assignee": "dnochevn",
+          "polarionResults": [
+            {
+              "arch": "x86_64",
+              "verdict": "Not Run",
+              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-57-43-122"
+            },
+            {
+              "arch": "ppc64le",
+              "verdict": "Not Run",
+              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-58-14-840"
+            },
+            {
+              "arch": "s390x",
+              "verdict": "Not Run",
+              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-58-41-021"
+            }
+          ],
+          "changeRef": "!3627",
+          "changeRefUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/merge_requests/3627",
+          "hint": "U78 verifies popular extensions are available from the embedded OpenVSX catalog. pluginregistry-rhel9 rebuilt (!3627). Mapped via test-component-mapping: pluginregistry-rhel9 -> U78.",
+          "proposedSteps": null
+        },
+        {
+          "id": "I66",
+          "title": "Custom Che plugin registry",
+          "priority": 0,
+          "testUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/test-cases/-/blob/master/tests/operational/i66-custom-che-plugin-registry.md",
+          "pipeline": "(not automated)",
+          "pipelineUrl": null,
+          "coveredBy": null,
+          "coveredByUrls": {},
+          "assignee": "sskoryk",
+          "polarionResults": [
+            {
+              "arch": "x86_64",
+              "verdict": "Not Run",
+              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-57-43-122"
+            },
+            {
+              "arch": "ppc64le",
+              "verdict": "Not Run",
+              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-58-14-840"
+            },
+            {
+              "arch": "s390x",
+              "verdict": "Not Run",
+              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-58-41-021"
+            }
+          ],
+          "changeRef": "!3627",
+          "changeRefUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/merge_requests/3627",
+          "hint": "I66 tests custom plugin registry setup. pluginregistry-rhel9 rebuilt with undici update. Mapped via test-component-mapping: pluginregistry-rhel9 -> I66.",
+          "proposedSteps": null
+        },
+        {
+          "id": "I74",
+          "title": "Custom Open VSX registry",
+          "priority": 0,
+          "testUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/test-cases/-/blob/master/tests/operational/i74-create-custom-open-vsix-plugin-registry.md",
+          "pipeline": "(not automated)",
+          "pipelineUrl": null,
+          "coveredBy": null,
+          "coveredByUrls": {},
+          "assignee": "sskoryk",
+          "polarionResults": [
+            {
+              "arch": "x86_64",
+              "verdict": "Not Run",
+              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-57-43-122"
+            },
+            {
+              "arch": "ppc64le",
+              "verdict": "Not Run",
+              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-58-14-840"
+            },
+            {
+              "arch": "s390x",
+              "verdict": "Not Run",
+              "url": "https://polarion.engineering.redhat.com/polarion/redirect/project/CodeReady/testrun?id=RHCRW%202026-06-15%2017-58-41-021"
+            }
+          ],
+          "changeRef": "!3664",
+          "changeRefUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/merge_requests/3664",
+          "hint": "I74 tests custom OpenVSX registry. pluginregistry-rhel9 rebuilt with OpenSSL update (!3664/CRW-11196). Mapped via test-component-mapping: pluginregistry-rhel9 -> I74.",
+          "proposedSteps": null
+        }
+      ]
+    }
+  ],
+};
+
+function esc(s) {
+  var d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+function hint(text) {
+  if (!text) return '';
+  return '<span class="hint-btn" onclick="showHint(this)" data-hint="' + esc(text) + '">[+]</span>';
+}
+
+function linkWithHint(url, text, hintText) {
+  var l = url ? link(url, text) : esc(text);
+  return l + hint(hintText);
+}
+
+function showHint(el) {
+  var text = el.getAttribute('data-hint');
+  document.getElementById('hint-text').textContent = text;
+  document.getElementById('hint-overlay').style.display = 'block';
+  event.stopPropagation();
+}
+
+function closeHint() {
+  document.getElementById('hint-overlay').style.display = 'none';
+}
+
+function copyHint() {
+  var text = document.getElementById('hint-text').textContent;
+  navigator.clipboard.writeText(text).then(function() {
+    var btn = document.querySelector('.copy-btn');
+    btn.textContent = 'Copied';
+    setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+  });
+}
+
+function link(url, text) {
+  if (!url) return esc(text);
+  return '<a href="' + esc(url) + '" target="_blank">' + esc(text) + '</a>';
+}
+
+function priorityBadge(p) {
+  if (p === undefined || p === null) return '';
+  var labels = {0: 'high', 1: 'medium', 2: 'low'};
+  var label = labels[p] || 'P' + p;
+  return ' <span class="priority p' + p + '">' + label + '</span>';
+}
+
+function renderChanges(changes) {
+  if (!changes || !changes.length) return '';
+  var html = '<table class="tests-table">';
+  html += '<tr><th>Downstream Commit</th><th>MR</th><th>JIRA</th><th>Upstream Commit</th><th>PR</th><th>Eclipse Che Issue</th></tr>';
+  for (var i = 0; i < changes.length; i++) {
+    var c = changes[i];
+    var dsHtml = c.dsCommit ? link(c.dsUrl, c.dsCommit + ' - ' + (c.dsTitle || '')) : '';
+    var mrHtml = c.mr ? linkWithHint(c.mrUrl, c.mr, c.mrHint) : '';
+    var jiraHtml = '';
+    if (c.jiras && c.jiras.length) {
+      jiraHtml = c.jiras.map(function(j) { return linkWithHint(j.url, j.id, j.hint); }).join(', ');
+    }
+    var usHtml = c.usCommit ? link(c.usUrl, c.usCommit + ' - ' + (c.usTitle || '')) : '';
+    var prHtml = c.pr ? linkWithHint(c.prUrl, c.pr, c.prHint) : '';
+    var cheHtml = '';
+    if (c.cheIssues && c.cheIssues.length) {
+      cheHtml = c.cheIssues.map(function(g) { return linkWithHint(g.url, g.id, g.hint); }).join(', ');
+    }
+    html += '<tr><td>' + dsHtml + '</td><td>' + mrHtml + '</td><td>' + jiraHtml + '</td><td>' + usHtml + '</td><td>' + prHtml + '</td><td>' + cheHtml + '</td></tr>';
+  }
+  html += '</table>';
+  return html;
+}
+
+
+function renderTests(tests) {
+  if (!tests || !tests.length) return '';
+  var prio_labels = {0: 'high', 1: 'medium', 2: 'low'};
+  var html = '<table class="tests-table">';
+  html += '<tr><th>Test</th><th>Priority</th><th>Assignee</th><th>Pipeline</th><th>Change</th></tr>';
+  for (var i = 0; i < tests.length; i++) {
+    var t = tests[i];
+    var pipelineHtml = t.pipelineUrl
+      ? link(t.pipelineUrl, t.pipeline)
+      : esc(t.pipeline || '(not automated)');
+    if (t.coveredBy) {
+      var pipe = t.pipeline || '';
+      var covParts = t.coveredBy.split(', ');
+      var covLinks = [];
+      for (var ci = 0; ci < covParts.length; ci++) {
+        var c = covParts[ci];
+        if (c === pipe || pipe.indexOf(c + ' >') === 0) continue;
+        var covUrl = t.coveredByUrls && t.coveredByUrls[c] ? t.coveredByUrls[c] : null;
+        covLinks.push(covUrl ? '[' + link(covUrl, c) + ']' : '[' + esc(c) + ']');
+      }
+      if (covLinks.length) pipelineHtml += ' ' + covLinks.join(' ');
+    }
+    var testName = t.id + ' - ' + t.title;
+    var testNameHtml = t.testUrl ? link(t.testUrl, testName) : esc(testName);
+    testNameHtml += hint(t.hint);
+    if (t.proposedSteps) {
+      testNameHtml += '<details><summary>Proposed test steps</summary><div class="proposed-steps">' + t.proposedSteps + '</div></details>';
+    }
+    var assignee = t.assignee || '';
+    var changeHtml = t.changeRef ? (t.changeRefUrl ? link(t.changeRefUrl, t.changeRef) : esc(t.changeRef)) : '';
+    html += '<tr>'
+      + '<td>' + testNameHtml + '</td>'
+      + '<td>' + priorityBadge(t.priority) + '</td>'
+      + '<td>' + esc(assignee) + '</td>'
+      + '<td>' + pipelineHtml + '</td>'
+      + '<td>' + changeHtml + '</td>'
+      + '</tr>';
+  }
+  html += '</table>';
+  return html;
+}
+
+function renderTree() {
+  var html = '';
+  // Components
+  for (var i = 0; i < DATA.components.length; i++) {
+    var comp = DATA.components[i];
+    var changedClass = comp.changed ? '' : ' unchanged';
+    var changedLabel = comp.changed ? 'changed' : 'unchanged';
+    var hasContent = (comp.changes && comp.changes.length) || (comp.tests && comp.tests.length);
+    html += '<li class="' + changedClass + '">';
+    html += '<div class="node collapsible" onclick="toggle(this)">';
+    html += '<span class="toggle">+</span>';
+    html += '<span class="tag tag-component">component</span> ';
+    html += '<span class="label"><strong>' + esc(comp.name) + '</strong></span> ';
+    html += '<span class="meta">(' + changedLabel + ')</span>';
+    html += '</div>';
+    if (hasContent) {
+      html += '<ul class="hidden">';
+      if (comp.changes && comp.changes.length) {
+        html += '<li>';
+        html += '<div class="node collapsible" onclick="toggleTable(this)">';
+        html += '<span class="toggle">-</span>';
+        html += '<span class="tag tag-fix">changes</span> ';
+        html += '<span class="label">Changes (' + comp.changes.length + ')</span>';
+        html += '</div>';
+        html += '<div class="tests-wrapper">' + renderChanges(comp.changes) + '</div>';
+        html += '</li>';
+      }
+      if (comp.tests && comp.tests.length) {
+        html += '<li>';
+        html += '<div class="node collapsible" onclick="toggleTable(this)">';
+        html += '<span class="toggle">-</span>';
+        html += '<span class="tag tag-tests-group">tests</span> ';
+        html += '<span class="label">Related tests to run (' + comp.tests.length + ')</span>';
+        html += '</div>';
+        html += '<div class="tests-wrapper">' + renderTests(comp.tests) + '</div>';
+        html += '</li>';
+      }
+      html += '</ul>';
+    }
+    html += '</li>';
+  }
+  document.getElementById('tree').innerHTML = html;
+}
+
+function toggleTable(el) {
+  var wrapper = el.parentNode.querySelector('.tests-wrapper');
+  if (!wrapper) return;
+  var toggleSpan = el.querySelector('.toggle');
+  if (wrapper.classList.contains('hidden')) {
+    wrapper.classList.remove('hidden');
+    if (toggleSpan) toggleSpan.textContent = '-';
+  } else {
+    wrapper.classList.add('hidden');
+    if (toggleSpan) toggleSpan.textContent = '+';
+  }
+}
+
+function toggle(el) {
+  var ul = el.parentNode.querySelector(':scope > ul');
+  if (!ul) return;
+  var toggleSpan = el.querySelector('.toggle');
+  if (ul.classList.contains('hidden')) {
+    ul.classList.remove('hidden');
+    if (toggleSpan) toggleSpan.textContent = '-';
+  } else {
+    ul.classList.add('hidden');
+    if (toggleSpan) toggleSpan.textContent = '+';
+  }
+}
+
+function expandAll() {
+  var items = document.querySelectorAll('.tree ul');
+  for (var i = 0; i < items.length; i++) items[i].classList.remove('hidden');
+  var toggles = document.querySelectorAll('.toggle');
+  for (var i = 0; i < toggles.length; i++) if (toggles[i].textContent === '+') toggles[i].textContent = '-';
+  var unchanged = document.querySelectorAll('.unchanged');
+  for (var i = 0; i < unchanged.length; i++) unchanged[i].style.display = '';
+}
+
+function collapseAll() {
+  var items = document.querySelectorAll('.tree > li > ul');
+  for (var i = 0; i < items.length; i++) items[i].classList.add('hidden');
+  var toggles = document.querySelectorAll('.tree > li > .node > .toggle');
+  for (var i = 0; i < toggles.length; i++) if (toggles[i].textContent === '-') toggles[i].textContent = '+';
+}
+
+document.getElementById('search').addEventListener('input', function() {
+  var q = this.value.toLowerCase().trim();
+  var allLi = document.querySelectorAll('.tree li');
+  if (!q) {
+    for (var i = 0; i < allLi.length; i++) {
+      allLi[i].style.display = '';
+      var labels = allLi[i].querySelectorAll('.match');
+      for (var j = 0; j < labels.length; j++) {
+        labels[j].outerHTML = labels[j].innerHTML;
+      }
+    }
+    return;
+  }
+  for (var i = 0; i < allLi.length; i++) {
+    var text = allLi[i].textContent.toLowerCase();
+    if (text.indexOf(q) >= 0) {
+      allLi[i].style.display = '';
+      var parent = allLi[i].parentNode;
+      while (parent && parent.classList) {
+        if (parent.tagName === 'UL' && parent.classList.contains('hidden')) {
+          parent.classList.remove('hidden');
+        }
+        if (parent.tagName === 'LI') parent.style.display = '';
+        parent = parent.parentNode;
+      }
+    } else {
+      allLi[i].style.display = 'none';
+    }
+  }
+});
+
+renderTree();
+</script>
+
+<div id="hint-overlay" class="hint-overlay" onclick="closeHint()">
+  <div class="hint-popup" onclick="event.stopPropagation()">
+    <div id="hint-text" class="hint-popup-text"></div>
+    <div class="hint-popup-actions">
+      <button class="copy-btn" onclick="copyHint()">Copy</button>
+      <button onclick="closeHint()">Close</button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
