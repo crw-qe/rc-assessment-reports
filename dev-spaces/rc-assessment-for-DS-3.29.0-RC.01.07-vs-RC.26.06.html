@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RC Change Map: DS 3.29.0-RC.01.07 vs RC.26.06</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 17px; color: #1a1a1a; background: #fafafa; padding: 20px; }
+  h1 { font-size: 24px; margin-bottom: 4px; }
+  .subtitle { color: #666; font-size: 15px; margin-bottom: 16px; }
+  .toolbar { display: flex; gap: 10px; margin-bottom: 16px; align-items: center; }
+  .toolbar input { padding: 6px 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 15px; width: 300px; }
+  .toolbar button { padding: 6px 12px; border: 1px solid #ccc; border-radius: 4px; background: #fff; cursor: pointer; font-size: 15px; }
+  .toolbar button:hover { background: #f0f0f0; }
+  .tree { list-style: none; padding-left: 0; }
+  .tree ul { list-style: none; padding-left: 22px; border-left: 1px solid #ddd; margin-left: 8px; }
+  .tree li { position: relative; padding: 3px 0; }
+  .node { display: inline-flex; align-items: center; gap: 6px; cursor: default; padding: 3px 6px; border-radius: 3px; }
+  .node.collapsible { cursor: pointer; }
+  .node.collapsible:hover { background: #eef2ff; }
+  .toggle { display: inline-block; width: 14px; font-size: 11px; color: #888; text-align: center; flex-shrink: 0; }
+  .tag { display: inline-block; padding: 2px 6px; border-radius: 3px; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; }
+  .tag-component { background: #dbeafe; color: #1e40af; }
+  .tag-fix { background: #e0e7ff; color: #3730a3; }
+  .tag-tests-group { background: #fce7f3; color: #9d174d; }
+  .label { font-size: 16px; }
+  .label a { color: #2563eb; text-decoration: none; }
+  .label a:hover { text-decoration: underline; }
+  .meta { color: #888; font-size: 14px; }
+  .priority { display: inline-block; padding: 1px 5px; border-radius: 2px; font-size: 13px; font-weight: 600; }
+  .p0 { background: #fee2e2; color: #991b1b; }
+  .p1 { background: #fef3c7; color: #92400e; }
+  .p2 { background: #f3f4f6; color: #6b7280; }
+  .hidden { display: none; }
+  .summary { margin: 16px 0; padding: 16px 20px; background: #fff; border: 1px solid #e5e7eb; border-radius: 6px; font-size: 16px; color: #374151; line-height: 1.8; }
+  .summary strong { color: #1a1a1a; }
+  .summary h2 { font-size: 18px; margin: 14px 0 6px 0; color: #1a1a1a; }
+  .summary h2:first-child { margin-top: 0; }
+  .summary ul { margin: 4px 0 4px 20px; }
+  .summary li { margin: 2px 0; }
+  .summary a { color: #2563eb; text-decoration: none; }
+  .summary a:hover { text-decoration: underline; }
+  h2.section-title { font-size: 19px; margin: 20px 0 8px 0; }
+  .hint-btn { display: inline-block; cursor: pointer; color: #6b7280; font-size: 11px; vertical-align: super; margin-left: 2px; background: #f3f4f6; border: 1px solid #d1d5db; border-radius: 3px; padding: 0 3px; line-height: 1.4; }
+  .hint-btn:hover { background: #e5e7eb; color: #374151; }
+  .hint-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); z-index: 1000; }
+  .hint-popup { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #fff; border: 1px solid #d1d5db; border-radius: 8px; padding: 20px 24px; max-width: 600px; width: 90%; z-index: 1001; box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+  .hint-popup-text { font-size: 15px; line-height: 1.7; color: #1a1a1a; white-space: pre-line; margin-bottom: 14px; }
+  .hint-popup-actions { display: flex; gap: 8px; justify-content: flex-end; }
+  .hint-popup-actions button { padding: 6px 14px; border: 1px solid #d1d5db; border-radius: 4px; background: #fff; cursor: pointer; font-size: 14px; }
+  .hint-popup-actions button:hover { background: #f3f4f6; }
+  .hint-popup-actions .copy-btn { background: #2563eb; color: #fff; border-color: #2563eb; }
+  .hint-popup-actions .copy-btn:hover { background: #1d4ed8; }
+  .tests-table { border-collapse: collapse; margin: 6px 0 6px 30px; font-size: 15px; width: calc(100% - 30px); }
+  .tests-table th, .tests-table td { border: 1px solid #e5e7eb; padding: 5px 10px; text-align: left; }
+  .tests-table th { background: #f9fafb; font-weight: 600; font-size: 13px; text-transform: uppercase; letter-spacing: 0.3px; }
+  .tests-table td a { color: #2563eb; text-decoration: none; }
+  .tests-table td a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<h1>RC Change Map: DS 3.29.0-RC.01.07 vs RC.26.06</h1>
+<div class="subtitle">Delta: June 26 -> July 1 on 3.29.x release branch</div>
+
+<div class="summary"><h2>Changed components</h2>
+<ul>
+<li><strong>udi-rhel9</strong>: Go 1.26.4 update fixing <a href="https://redhat.atlassian.net/browse/CRW-10943" target="_blank">CRW-10943</a> (CVE-2026-32281: Go crypto/x509 DoS), RPM security patches (buildah 1.43.1-2, podman, skopeo, vim, nginx, git-lfs, systemd, kernel), base image updates (ubi9-minimal 9.8-1782708562, go-toolset 9.8-1782736563)</li>
+<li><strong>udi-base-rhel10</strong> (intermediate build image): ubi10/go-toolset 10.2-1782735972 (Go 1.26.4), ubi10-minimal 10.2-1782283038, RPM security patches (buildah, podman-sequoia, skopeo, vim, python3-urllib3). Same <a href="https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/merge_requests/3836" target="_blank">MR !3836</a>.</li>
+</ul>
+<h2>Context</h2>
+<ul>
+<li>This is a minimal delta. Only the UDI images were rebuilt. All other components (code-rhel9, dashboard-rhel9, server-rhel9, operator, etc.) have identical digests to RC.26.06.</li>
+<li>Changes already identified in <a href="rc-assessment-for-DS-3.29.0-RC.26.06-vs-RC.24.06.html" target="_blank">RC.26.06 vs RC.24.06</a> (code-rhel9 CVE/copilot/FIPS fixes, dashboard-rhel9 kubeconfig injection, pluginregistry-rhel9 extension updates) are not repeated here.</li>
+<li>No upstream PRs were merged to 7.119.x branch during this window (June 27 - July 1).</li>
+</ul>
+<h2>Caveats</h2>
+<ul>
+<li>Polarion test runs (Group ID: DS 3.29.0.RCs) are all "inprogress" with no verdicts recorded yet.</li>
+<li>Jenkins pipeline URLs were verified via Jenkins MCP.</li>
+<li>udi-base-rhel10 is not tracked in devspaces_images.txt. Changes were detected by file-level diff of devspaces-udi/build/udi-base-10/ and devspaces-udi/build/common-10/ paths.</li>
+</ul></div>
+
+<h2 class="section-title">Change Map</h2>
+<div class="toolbar">
+  <input type="text" id="search" placeholder="Filter by test ID, ticket, component...">
+  <button onclick="expandAll()">Expand all</button>
+  <button onclick="collapseAll()">Collapse all</button>
+</div>
+
+<ul class="tree" id="tree"></ul>
+
+<script>
+var DATA = {"title": "DS 3.29.0-RC.01.07 vs RC.26.06", "subtitle": "Delta: June 26 -> July 1 on 3.29.x release branch", "components": [{"name": "udi-rhel9", "changed": true, "changes": [{"dsCommit": "631f8a5b", "dsTitle": "chore(udi): update go-toolset base images to Go 1.26.4 and regenerate rpms lock files", "dsUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/commit/631f8a5b6636eb923064f038dd80126b524cda91", "mr": "!3836", "mrUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/merge_requests/3836", "mrHint": "Downstream MR to update go-toolset base images to Go 1.26.4 and refresh RPM lockfiles across udi-base, udi-base-10, and udi Dockerfiles. Updates Go 1.26.3 to 1.26.4, buildah 1.43.1-2, podman, skopeo, vim, nginx, git-lfs, systemd, kernel, and more. Authored by Rohan Kumar, merged 2026-06-30. Found via GitLab commits/631f8a5b/merge_requests API.", "jiras": [{"id": "CRW-10943", "url": "https://redhat.atlassian.net/browse/CRW-10943", "hint": "CVE-2026-32281: Go crypto/x509 Denial of Service via inefficient certificate chain validation. The Go 1.26.4 update in udi-rhel9 fixes this CVE by updating the Go runtime. Found in MR !3836 description which states 'It should fix CRW-10943'. Fix version: 3.29.0.GA. Priority: Minor."}], "usCommit": null, "usTitle": null, "usUrl": null, "pr": null, "prUrl": null, "prHint": null, "cheIssues": []}], "tests": [{"id": "P01", "title": "Test podman build and push container image", "priority": 0, "testUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/test-cases/-/blob/master/tests/functional/podman/p01-test-podman-build-and-push-container-image.md", "pipeline": "typescript-tests > BuildPushRunPodmanContainerAPI", "pipelineUrl": "https://jenkins-csb-crwqe-main.dno.corp.redhat.com/job/Testing/job/e2e/job/basic/job/typescript-tests/", "coveredBy": null, "coveredByUrls": null, "assignee": "olkornii", "changeRef": "CRW-10943", "changeRefUrl": "https://redhat.atlassian.net/browse/CRW-10943", "hint": "P01 tests podman build and push container image using buildah. buildah was updated from 1.43.1-1 to 1.43.1-2.el9_8 in the udi-rhel9 rebuild (MR !3836). skopeo was also updated from 1.22.2-1 to 1.22.2-6. From test-component-mapping: P01, P02 depend on udi-rhel9."}, {"id": "P02", "title": "Test podman run command", "priority": 0, "testUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/test-cases/-/blob/master/tests/functional/podman/p02-test-podman-run-command.md", "pipeline": "typescript-tests > KubedockPodmanTest", "pipelineUrl": "https://jenkins-csb-crwqe-main.dno.corp.redhat.com/job/Testing/job/e2e/job/basic/job/typescript-tests/", "coveredBy": null, "coveredByUrls": null, "assignee": "olkornii", "changeRef": "CRW-10943", "changeRefUrl": "https://redhat.atlassian.net/browse/CRW-10943", "hint": "P02 tests podman run command (kubedock-based). podman and containernetworking-plugins were updated in the RPM lockfile refresh (MR !3836). containernetworking-plugins went from 1.9.0-2 to 1.9.0-3. From test-component-mapping: P01, P02 depend on udi-rhel9."}, {"id": "U42", "title": "VS Code Java Quarkus devfile API test", "priority": 0, "testUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/test-cases/-/blob/master/tests/functional/editors/vscode/u42-vs-code-java-quarkus-devfile-api-test.md", "pipeline": "functional-tests > QuarkusDevFileAPI", "pipelineUrl": "https://jenkins-csb-crwqe-main.dno.corp.redhat.com/job/Testing/job/e2e/job/complex/job/latest/job/functional-tests/", "coveredBy": null, "coveredByUrls": null, "assignee": "sskoryk", "changeRef": "CRW-10943", "changeRefUrl": "https://redhat.atlassian.net/browse/CRW-10943", "hint": "U42 tests VS Code editor with Quarkus devfile using the UDI tools container. Go was updated from 1.26.3 to 1.26.4 in the UDI image (MR !3836, CRW-10943). General smoke test to verify the udi-rhel9 rebuild did not break workspace functionality. From test-component-mapping: U42-U75 depends on udi-rhel9."}]}, {"name": "udi-base-rhel10", "changed": true, "changes": [{"dsCommit": "631f8a5b", "dsTitle": "chore(udi): update go-toolset base images to Go 1.26.4 and regenerate rpms lock files", "dsUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/commit/631f8a5b6636eb923064f038dd80126b524cda91", "mr": "!3836", "mrUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/merge_requests/3836", "mrHint": "Same MR as udi-rhel9. Changed 3 files under udi-base-10: devspaces-udi/build/udi-base-10/dockerfiles/rhel.Dockerfile (ubi10/go-toolset 10.2-1782735972, ubi10-minimal 10.2-1782283038), devspaces-udi/build/udi-base-10/dependencies/rpms/ubi10/rpms.lock.yaml, devspaces-udi/build/common-10/golang/rpms.lock.yaml. Found via GitLab compare API on delta window.", "jiras": [{"id": "CRW-10943", "url": "https://redhat.atlassian.net/browse/CRW-10943", "hint": "CVE-2026-32281: Go crypto/x509 DoS. Same CVE as udi-rhel9 -- the Go 1.26.4 update applies to both ubi9 and ubi10 go-toolset base images. Found in MR !3836 description."}], "usCommit": null, "usTitle": null, "usUrl": null, "pr": null, "prUrl": null, "prHint": null, "cheIssues": []}], "tests": [{"id": "U76", "title": "Create VS Code Editor workspace using ubi9-minimal, ubi9-init, ubi9, ubi10 images", "priority": 0, "testUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/test-cases/-/blob/master/tests/functional/editors/vscode/u76-create-vs-code-editor-workspace-using-ubi9minimal-ubi9init-u.md", "pipeline": "functional-tests > Ubi9MinimalUbi9InitUbi9Ubi10", "pipelineUrl": "https://jenkins-csb-crwqe-main.dno.corp.redhat.com/job/Testing/job/e2e/job/complex/job/latest/job/functional-tests/", "coveredBy": null, "coveredByUrls": null, "assignee": "dnochevn", "changeRef": "!3836", "changeRefUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/merge_requests/3836", "hint": "U76 tests VS Code workspace creation using ubi9-minimal, ubi9-init, ubi9, and ubi10 images. ubi10-minimal was updated from 10.2-1781509346 to 10.2-1782283038 in MR !3836. From test-component-mapping: U76 depends on code-rhel9, udi-rhel9, udi-base-rhel10."}, {"id": "U79", "title": "Create workspace with VS Code Editor using ubi8-latest as a tools container", "priority": 0, "testUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/test-cases/-/blob/master/tests/functional/editors/vscode/u79-create-workspace-with-vs-code-editor-using-ubi8latest-as-a-t.md", "pipeline": "functional-tests > Ubi8Latest", "pipelineUrl": "https://jenkins-csb-crwqe-main.dno.corp.redhat.com/job/Testing/job/e2e/job/complex/job/latest/job/functional-tests/", "coveredBy": null, "coveredByUrls": null, "assignee": "dnochevn", "changeRef": "!3836", "changeRefUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/merge_requests/3836", "hint": "U79 tests VS Code with ubi8-latest image. Although ubi8 was not directly updated, the udi-base-rhel10 rebuild may affect the fallback behavior for ubi8 containers. From test-component-mapping: U79 depends on code-rhel9, udi-rhel9, udi-base-rhel10."}, {"id": "M22", "title": "Test start workspace with IntelliJ IDEA Ultimate Editor using all available samples", "priority": 0, "testUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/test-cases/-/blob/master/tests/functional/editors/idea/m22-test-start-workspace-with-intellij-idea-ultimate-editor-usin.md", "pipeline": "(manual)", "pipelineUrl": null, "coveredBy": null, "coveredByUrls": null, "assignee": "dnochevn", "changeRef": "!3836", "changeRefUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/merge_requests/3836", "hint": "M22 tests IntelliJ IDEA Ultimate with all samples using ubi8, ubi9, ubi10 images as tools container. ubi10-minimal and go-toolset were updated in MR !3836. From test-component-mapping: M22-M29 depends on jetbrains-ide-rhel9, dashboard-rhel9, udi-rhel9, udi-base-rhel10."}, {"id": "M23", "title": "Test start workspace with IntelliJ IDEA PyCharm Editor using all available samples", "priority": 0, "testUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/test-cases/-/blob/master/tests/functional/editors/idea/m23-test-start-workspace-with-intellij-idea-pycharm-editor-using.md", "pipeline": "(manual)", "pipelineUrl": null, "coveredBy": null, "coveredByUrls": null, "assignee": "dnochevn", "changeRef": "!3836", "changeRefUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/merge_requests/3836", "hint": "M23 tests PyCharm with all samples. udi-base-rhel10 was rebuilt with updated ubi10-minimal and go-toolset. From test-component-mapping: M22-M29 depends on udi-base-rhel10."}, {"id": "M24", "title": "Test start workspace with IntelliJ IDEA WebStorm Editor using all available samples", "priority": 0, "testUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/test-cases/-/blob/master/tests/functional/editors/idea/m24-test-start-workspace-with-intellij-idea-webstorm-editor-usin.md", "pipeline": "(manual)", "pipelineUrl": null, "coveredBy": null, "coveredByUrls": null, "assignee": "dnochevn", "changeRef": "!3836", "changeRefUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/merge_requests/3836", "hint": "M24 tests WebStorm with all samples. udi-base-rhel10 was rebuilt with updated ubi10 base images. From test-component-mapping: M22-M29 depends on udi-base-rhel10."}, {"id": "M25", "title": "Test start workspace with IntelliJ IDEA RubyMine Editor using all available samples", "priority": 0, "testUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/test-cases/-/blob/master/tests/functional/editors/idea/m25-test-start-workspace-with-intellij-idea-rubymine-editor-usin.md", "pipeline": "(manual)", "pipelineUrl": null, "coveredBy": null, "coveredByUrls": null, "assignee": "dnochevn", "changeRef": "!3836", "changeRefUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/merge_requests/3836", "hint": "M25 tests RubyMine with all samples. udi-base-rhel10 was rebuilt. From test-component-mapping: M22-M29 depends on udi-base-rhel10."}, {"id": "M26", "title": "Test start workspace with IntelliJ IDEA CLion Editor using all available samples", "priority": 0, "testUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/test-cases/-/blob/master/tests/functional/editors/idea/m26-test-start-workspace-with-intellij-idea-clion-editor-using-a.md", "pipeline": "(manual)", "pipelineUrl": null, "coveredBy": null, "coveredByUrls": null, "assignee": "dnochevn", "changeRef": "!3836", "changeRefUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/merge_requests/3836", "hint": "M26 tests CLion with all samples. udi-base-rhel10 was rebuilt. From test-component-mapping: M22-M29 depends on udi-base-rhel10."}, {"id": "M27", "title": "Test start workspace with IntelliJ IDEA GoLand Editor using all available samples", "priority": 0, "testUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/test-cases/-/blob/master/tests/functional/editors/idea/m27-test-start-workspace-with-intellij-idea-goland-editor-using.md", "pipeline": "(manual)", "pipelineUrl": null, "coveredBy": null, "coveredByUrls": null, "assignee": "dnochevn", "changeRef": "!3836", "changeRefUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/merge_requests/3836", "hint": "M27 tests GoLand with all samples. Go 1.26.4 update in udi-base-rhel10 is directly relevant for GoLand workspaces using Go tools. From test-component-mapping: M22-M29 depends on udi-base-rhel10."}, {"id": "M28", "title": "Test start workspace with IntelliJ IDEA PhpStorm Editor using all available samples", "priority": 0, "testUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/test-cases/-/blob/master/tests/functional/editors/idea/m28-test-start-workspace-with-intellij-idea-phpstorm-editor-usin.md", "pipeline": "(manual)", "pipelineUrl": null, "coveredBy": null, "coveredByUrls": null, "assignee": "dnochevn", "changeRef": "!3836", "changeRefUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/merge_requests/3836", "hint": "M28 tests PhpStorm with all samples. udi-base-rhel10 was rebuilt. From test-component-mapping: M22-M29 depends on udi-base-rhel10."}, {"id": "M29", "title": "Test start workspace with IntelliJ IDEA Rider Editor using all available samples", "priority": 0, "testUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/test-cases/-/blob/master/tests/functional/editors/idea/m29-test-start-workspace-with-intellij-idea-rider-editor-using-a.md", "pipeline": "(manual)", "pipelineUrl": null, "coveredBy": null, "coveredByUrls": null, "assignee": "dnochevn", "changeRef": "!3836", "changeRefUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/merge_requests/3836", "hint": "M29 tests Rider with all samples. udi-base-rhel10 was rebuilt. From test-component-mapping: M22-M29 depends on udi-base-rhel10."}, {"id": "M30", "title": "Test start workspace with JetBrains Toolbox Editor using all available samples", "priority": 0, "testUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/test-cases/-/blob/master/tests/functional/editors/jetbrains-toolbox/m30-test-start-workspace-with-jetbrains-toolbox-editor-using-all.md", "pipeline": "(manual)", "pipelineUrl": null, "coveredBy": null, "coveredByUrls": null, "assignee": "dnochevn", "changeRef": "!3836", "changeRefUrl": "https://gitlab.cee.redhat.com/codeready-workspaces/devspaces-images/-/merge_requests/3836", "hint": "M30 tests JetBrains Toolbox with all samples using ubi8, ubi9, ubi10 images as tools container. ubi10-minimal and go-toolset were updated in MR !3836. From test-component-mapping: M30 depends on jetbrains-ide-rhel9, dashboard-rhel9, udi-rhel9, udi-base-rhel10."}]}]};
+
+function esc(s) {
+  var d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+function hint(text) {
+  if (!text) return '';
+  return '<span class="hint-btn" onclick="showHint(this)" data-hint="' + esc(text) + '">[+]</span>';
+}
+
+function linkWithHint(url, text, hintText) {
+  var l = url ? link(url, text) : esc(text);
+  return l + hint(hintText);
+}
+
+function showHint(el) {
+  var text = el.getAttribute('data-hint');
+  document.getElementById('hint-text').textContent = text;
+  document.getElementById('hint-overlay').style.display = 'block';
+  event.stopPropagation();
+}
+
+function closeHint() {
+  document.getElementById('hint-overlay').style.display = 'none';
+}
+
+function copyHint() {
+  var text = document.getElementById('hint-text').textContent;
+  navigator.clipboard.writeText(text).then(function() {
+    var btn = document.querySelector('.copy-btn');
+    btn.textContent = 'Copied';
+    setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+  });
+}
+
+function link(url, text) {
+  if (!url) return esc(text);
+  return '<a href="' + esc(url) + '" target="_blank">' + esc(text) + '</a>';
+}
+
+function priorityBadge(p) {
+  if (p === undefined || p === null) return '';
+  var labels = {0: 'high', 1: 'medium', 2: 'low'};
+  var label = labels[p] || 'P' + p;
+  return ' <span class="priority p' + p + '">' + label + '</span>';
+}
+
+function renderChanges(changes) {
+  if (!changes || !changes.length) return '';
+  if (changes.length === 1 && changes[0].digestMsg) {
+    return '<div style="padding:8px 12px 8px 30px;color:#6b7280;font-size:15px;font-style:italic;">' + esc(changes[0].digestMsg) + '</div>';
+  }
+  var html = '<table class="tests-table">';
+  html += '<tr><th>Downstream Commit</th><th>MR</th><th>JIRA</th><th>Upstream Commit</th><th>PR</th><th>Eclipse Che Issue</th></tr>';
+  for (var i = 0; i < changes.length; i++) {
+    var c = changes[i];
+    if (c.digestMsg) continue;
+    var dsHtml = c.dsCommit ? link(c.dsUrl, c.dsCommit + ' - ' + (c.dsTitle || '')) : '';
+    var mrHtml = c.mr ? linkWithHint(c.mrUrl, c.mr, c.mrHint) : '';
+    var jiraHtml = '';
+    if (c.jiras && c.jiras.length) {
+      jiraHtml = c.jiras.map(function(j) { return linkWithHint(j.url, j.id, j.hint); }).join(', ');
+    }
+    var usHtml = c.usCommit ? link(c.usUrl, c.usCommit + ' - ' + (c.usTitle || '')) : '';
+    var prHtml = c.pr ? linkWithHint(c.prUrl, c.pr, c.prHint) : '';
+    var cheHtml = '';
+    if (c.cheIssues && c.cheIssues.length) {
+      cheHtml = c.cheIssues.map(function(g) { return linkWithHint(g.url, g.id, g.hint); }).join(', ');
+    }
+    html += '<tr><td>' + dsHtml + '</td><td>' + mrHtml + '</td><td>' + jiraHtml + '</td><td>' + usHtml + '</td><td>' + prHtml + '</td><td>' + cheHtml + '</td></tr>';
+  }
+  html += '</table>';
+  return html;
+}
+
+function renderTests(tests) {
+  if (!tests || !tests.length) return '';
+  var html = '<table class="tests-table">';
+  html += '<tr><th>Test</th><th>Priority</th><th>Assignee</th><th>Pipeline</th><th>Change</th></tr>';
+  for (var i = 0; i < tests.length; i++) {
+    var t = tests[i];
+    var pipelineHtml = t.pipelineUrl
+      ? link(t.pipelineUrl, t.pipeline)
+      : esc(t.pipeline || '(not automated)');
+    if (t.coveredBy) {
+      var pipe = t.pipeline || '';
+      var covParts = t.coveredBy.split(', ');
+      var covLinks = [];
+      for (var ci = 0; ci < covParts.length; ci++) {
+        var c = covParts[ci];
+        if (c === pipe || pipe.indexOf(c + ' >') === 0) continue;
+        var covUrl = t.coveredByUrls && t.coveredByUrls[c] ? t.coveredByUrls[c] : null;
+        covLinks.push(covUrl ? '[' + link(covUrl, c) + ']' : '[' + esc(c) + ']');
+      }
+      if (covLinks.length) pipelineHtml += ' ' + covLinks.join(' ');
+    }
+    var testName = t.id + ' - ' + t.title;
+    var testNameHtml = t.testUrl ? link(t.testUrl, testName) : esc(testName);
+    testNameHtml += hint(t.hint);
+    var assignee = t.assignee || '';
+    var changeHtml = t.changeRef ? (t.changeRefUrl ? link(t.changeRefUrl, t.changeRef) : esc(t.changeRef)) : '';
+    html += '<tr>'
+      + '<td>' + testNameHtml + '</td>'
+      + '<td>' + priorityBadge(t.priority) + '</td>'
+      + '<td>' + esc(assignee) + '</td>'
+      + '<td>' + pipelineHtml + '</td>'
+      + '<td>' + changeHtml + '</td>'
+      + '</tr>';
+  }
+  html += '</table>';
+  return html;
+}
+
+function renderTree() {
+  var html = '';
+  for (var i = 0; i < DATA.components.length; i++) {
+    var comp = DATA.components[i];
+    var changedClass = comp.changed ? '' : ' unchanged';
+    var changedLabel = comp.changed ? 'changed' : 'unchanged';
+    var hasContent = (comp.changes && comp.changes.length) || (comp.tests && comp.tests.length);
+    html += '<li class="' + changedClass + '">';
+    html += '<div class="node collapsible" onclick="toggle(this)">';
+    html += '<span class="toggle">+</span>';
+    html += '<span class="tag tag-component">component</span> ';
+    html += '<span class="label"><strong>' + esc(comp.name) + '</strong></span> ';
+    html += '<span class="meta">(' + changedLabel + ')</span>';
+    html += '</div>';
+    if (hasContent) {
+      html += '<ul class="hidden">';
+      if (comp.changes && comp.changes.length) {
+        html += '<li>';
+        html += '<div class="node collapsible" onclick="toggleTable(this)">';
+        html += '<span class="toggle">-</span>';
+        html += '<span class="tag tag-fix">changes</span> ';
+        html += '<span class="label">Changes (' + comp.changes.length + ')</span>';
+        html += '</div>';
+        html += '<div class="tests-wrapper">' + renderChanges(comp.changes) + '</div>';
+        html += '</li>';
+      }
+      if (comp.tests && comp.tests.length) {
+        html += '<li>';
+        html += '<div class="node collapsible" onclick="toggleTable(this)">';
+        html += '<span class="toggle">-</span>';
+        html += '<span class="tag tag-tests-group">tests</span> ';
+        html += '<span class="label">Related tests to run (' + comp.tests.length + ')</span>';
+        html += '</div>';
+        html += '<div class="tests-wrapper">' + renderTests(comp.tests) + '</div>';
+        html += '</li>';
+      }
+      html += '</ul>';
+    }
+    html += '</li>';
+  }
+  document.getElementById('tree').innerHTML = html;
+}
+
+function toggleTable(el) {
+  var wrapper = el.parentNode.querySelector('.tests-wrapper');
+  if (!wrapper) return;
+  var toggleSpan = el.querySelector('.toggle');
+  if (wrapper.classList.contains('hidden')) {
+    wrapper.classList.remove('hidden');
+    if (toggleSpan) toggleSpan.textContent = '-';
+  } else {
+    wrapper.classList.add('hidden');
+    if (toggleSpan) toggleSpan.textContent = '+';
+  }
+}
+
+function toggle(el) {
+  var ul = el.parentNode.querySelector(':scope > ul');
+  if (!ul) return;
+  var toggleSpan = el.querySelector('.toggle');
+  if (ul.classList.contains('hidden')) {
+    ul.classList.remove('hidden');
+    if (toggleSpan) toggleSpan.textContent = '-';
+  } else {
+    ul.classList.add('hidden');
+    if (toggleSpan) toggleSpan.textContent = '+';
+  }
+}
+
+function expandAll() {
+  var items = document.querySelectorAll('.tree ul');
+  for (var i = 0; i < items.length; i++) items[i].classList.remove('hidden');
+  var toggles = document.querySelectorAll('.toggle');
+  for (var i = 0; i < toggles.length; i++) if (toggles[i].textContent === '+') toggles[i].textContent = '-';
+}
+
+function collapseAll() {
+  var items = document.querySelectorAll('.tree > li > ul');
+  for (var i = 0; i < items.length; i++) items[i].classList.add('hidden');
+  var toggles = document.querySelectorAll('.tree > li > .node > .toggle');
+  for (var i = 0; i < toggles.length; i++) if (toggles[i].textContent === '-') toggles[i].textContent = '+';
+}
+
+document.getElementById('search').addEventListener('input', function() {
+  var q = this.value.toLowerCase().trim();
+  var allLi = document.querySelectorAll('.tree li');
+  if (!q) {
+    for (var i = 0; i < allLi.length; i++) {
+      allLi[i].style.display = '';
+      var labels = allLi[i].querySelectorAll('.match');
+      for (var j = 0; j < labels.length; j++) labels[j].outerHTML = labels[j].innerHTML;
+    }
+    return;
+  }
+  for (var i = 0; i < allLi.length; i++) {
+    var text = allLi[i].textContent.toLowerCase();
+    if (text.indexOf(q) >= 0) {
+      allLi[i].style.display = '';
+      var parent = allLi[i].parentNode;
+      while (parent && parent.classList) {
+        if (parent.tagName === 'UL' && parent.classList.contains('hidden')) parent.classList.remove('hidden');
+        if (parent.tagName === 'LI') parent.style.display = '';
+        parent = parent.parentNode;
+      }
+    } else {
+      allLi[i].style.display = 'none';
+    }
+  }
+});
+
+renderTree();
+</script>
+
+<div id="hint-overlay" class="hint-overlay" onclick="closeHint()">
+  <div class="hint-popup" onclick="event.stopPropagation()">
+    <div id="hint-text" class="hint-popup-text"></div>
+    <div class="hint-popup-actions">
+      <button class="copy-btn" onclick="copyHint()">Copy</button>
+      <button onclick="closeHint()">Close</button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
